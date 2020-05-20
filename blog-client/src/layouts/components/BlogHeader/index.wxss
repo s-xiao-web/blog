@@ -1,0 +1,28 @@
+.layout {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.header-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 40px;
+  color: #fff;
+  padding: 20px 30px;
+  background: #2e3033;
+}
+.header-container .logo-wrapper span:nth-child(1) {
+  font-size: 30px;
+}
+.header-container .menu-wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.header-container .menu-wrapper .menu-item-wrapper {
+  padding: 0 10px;
+}
+.header-container .menu-wrapper .menu-item-wrapper .menu-item {
+  cursor: pointer;
+}

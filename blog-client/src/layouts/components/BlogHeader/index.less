@@ -1,0 +1,31 @@
+.layout {
+  display: flex;
+  justify-content: space-between;;
+  align-items: center;
+}
+
+@f-color: #fff;
+@bg-color: #2e3033;
+
+.header-container {
+  .layout;
+  height: 40px;
+  color: @f-color;
+  padding: 20px 30px;
+  background:@bg-color;
+
+  .logo-wrapper span:nth-child(1) {
+    font-size: 30px;
+  }
+
+  .menu-wrapper {
+    .layout;
+    .menu-item-wrapper {
+      padding: 0 10px;
+      .menu-item {
+        cursor: pointer;
+      }
+    }
+  }
+
+}
