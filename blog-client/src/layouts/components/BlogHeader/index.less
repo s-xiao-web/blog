@@ -6,26 +6,66 @@
 
 @f-color: #fff;
 @bg-color: #2e3033;
+@check-color: #3eaf7c;
 
 .header-container {
   .layout;
-  height: 40px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 10;
+  width: 100%;
+  height: 80px;
+  padding: 0px 30px;
+  overflow: hidden;
   color: @f-color;
-  padding: 20px 30px;
   background:@bg-color;
+  box-sizing: border-box;
+  transition: all 0.5s;
 
-  .logo-wrapper span:nth-child(1) {
+  .header-left-wrap span:nth-child(1) {
     font-size: 30px;
   }
 
-  .menu-wrapper {
+  .header-right-wrap {
     .layout;
-    .menu-item-wrapper {
-      padding: 0 10px;
-      .menu-item {
-        cursor: pointer;
+
+    .menu-wrapper {
+      .layout;
+      margin: 0;
+      .menu-item-wrapper {
+        padding: 0 10px;
+        .menu-item {
+          cursor: pointer;
+          transition: all 0.3s;
+          &:hover {
+            color: @check-color;
+          }
+        }
+        &:last-child {
+          padding-right: 0;
+        }
       }
     }
+
+    :global .ant-select {
+      padding: 0 30px;
+    }
+
+    :global .theme-icon {
+      width: 24px;
+      height: 24px;
+      cursor: pointer;
+    }
+
+    :global .icon-baitian {
+      color: #2e3033;
+    }
+
+  }
+
+  .active {
+    color: @check-color;
   }
 
 }

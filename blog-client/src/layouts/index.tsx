@@ -1,21 +1,30 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { Scrollbars } from 'react-custom-scrollbars';
 
-import { BlogHeader } from './components/BlogHeader';
+import BlogHeader from './components/BlogHeader';
 
-import { config } from '@/config';
+import { config } from '../config';
 
 import styles from './index.css';
 
 const BasicLayout: React.FC = props => {
 
-  const { menu } = config
+  const { menu } = config;
+  const [top, SetTop] = useState(0);
 
   return (
-    <div className={styles.normal}>
-      <BlogHeader data={menu}></BlogHeader>
+    <Scrollbars
+      className={styles.normal}
+      onUpdate={handleScroll}
+    >
+      <BlogHeader menu={menu} scroll={top}></BlogHeader>
       {props.children}
-    </div>
+    </Scrollbars>
   );
+
+  function handleScroll({ scrollTop }) {
+    SetTop(scrollTop);
+  }
 };
 
 export default BasicLayout;

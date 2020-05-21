@@ -32,6 +32,10 @@ const config: IConfig =  {
       },
     }],
   ],
+
+  alias:{
+    theme: `${__dirname}/src/theme/`,
+  }
 }
 
 export default config;
