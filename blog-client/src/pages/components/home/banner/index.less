@@ -1,5 +1,28 @@
 .banner-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   width: 100vw;  
   height: 100vh;
+  color: #eee;
   background: url("https://gitee.com/artiely/Figure-bed/raw/master/image/491-1200x800-grayscale.webp") center center / cover no-repeat;
+
+  .banner-text {
+    font-size: 50px;
+    span {
+      display: block;
+    }
+  }
+
+  .banner-btn {
+    position: absolute;
+    bottom: 20%;
+    left: 50%;
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    font-size: 20px;
+    cursor: pointer;
+    transform: translateX(-50%);
+  }
 }

@@ -1,8 +1,8 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useMemo, useRef } from 'react';
 import { connect } from 'dva';
 import { map, get } from 'lodash';
 import classnames from 'classnames';
-import { Button } from 'antd';
+
 
 import { setTheme } from '../../../theme';
 import { BlogSearch } from '../BlogSearch';
@@ -15,16 +15,20 @@ interface option {
 interface props{
   readonly menu: Array<Object>,
   theme: boolean,
-  dispatch: (option:option)=> void
+  dispatch: (option:option)=> void,
+  scroll: number
 }
 
 const BlogHeader:React.FC<props> = props => {
 
   const { menu, theme, dispatch, scroll } = props;
 
-  console.log( 'scroll', scroll );
-
   const currentRef = useRef();
+
+  const currentScroll = useMemo(() => {
+    const ele:any = currentRef.current;
+    ele && ( ele.style.top = `-${scroll}px` )
+  }, [ scroll ])
 
   const icons = classnames({
     iconfont: true,
@@ -43,10 +47,10 @@ const BlogHeader:React.FC<props> = props => {
 
   const renderIcon = <span className={icons} onClick={changeTheme}></span>
 
-  useEffect(() => scrollTop(scroll), [scroll]);
+  // useEffect(() => scrollTop(scroll), [scroll]);
 
   return (
-    <div className={style['header-container']} ref={currentRef}>
+    <div className={style['header-container']} ref={currentRef} style={{ currentScroll }}>
       <div className={style['header-left-wrap']}>
         <span>Artiely</span>
         <span>blog</span>
@@ -66,15 +70,7 @@ const BlogHeader:React.FC<props> = props => {
   }
 
   function scrollTop(screenHeight) {
-    const ele:any = currentRef.current;
-    if (ele) {
-      const height = ele.clientHeight;
-      if ( screenHeight >= 0 && screenHeight <= height + 10 ) {
-        ele.style.top = `-${screenHeight}px`
-      } else {
-        // ele.style.top = `-${height}px`
-      }
-    }
+    
   }
 }
 
