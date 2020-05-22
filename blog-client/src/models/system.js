@@ -5,7 +5,8 @@ export default {
   namespace: 'system',
   
   state: {
-    theme: true
+    theme: true,
+    isSearch: false
   },
 
   reducers: {

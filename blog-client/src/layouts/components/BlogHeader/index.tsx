@@ -3,8 +3,6 @@ import { connect } from 'dva';
 import { map, get } from 'lodash';
 import classnames from 'classnames';
 
-
-import { setTheme } from '../../../theme';
 import { BlogSearch } from '../BlogSearch';
 
 import style from './index.less';
@@ -47,8 +45,6 @@ const BlogHeader:React.FC<props> = props => {
 
   const renderIcon = <span className={icons} onClick={changeTheme}></span>
 
-  // useEffect(() => scrollTop(scroll), [scroll]);
-
   return (
     <div className={style['header-container']} ref={currentRef} style={{ currentScroll }}>
       <div className={style['header-left-wrap']}>
@@ -59,7 +55,9 @@ const BlogHeader:React.FC<props> = props => {
         <ul className={style['menu-wrapper']}>
           { renderMenuItem }
         </ul>
-        <BlogSearch />
+        <div className={style['search-btn']}>
+          <span>图</span>
+        </div>
         { renderIcon }
       </div>
     </div>
@@ -69,8 +67,8 @@ const BlogHeader:React.FC<props> = props => {
     dispatch({ type: 'system/changeTheme' });
   }
 
-  function scrollTop(screenHeight) {
-    
+  function testFn(screenHeight) {
+
   }
 }
 

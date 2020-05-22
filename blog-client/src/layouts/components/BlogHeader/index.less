@@ -6,7 +6,7 @@
 
 @f-color: #fff;
 @bg-color: #2e3033;
-@check-color: #3eaf7c;
+@check-color: #ffefb9;
 
 .header-container {
   .layout;
@@ -49,24 +49,37 @@
       }
     }
 
-    :global .ant-select {
-      padding: 0 30px;
+    :global {
+      .ant-select {
+        padding: 0 30px;
+      }
+      .theme-icon {
+        width: 24px;
+        height: 24px;
+        cursor: pointer;
+      }
+      .icon-baitian {
+        color: #2e3033;
+      }
     }
-
-    :global .theme-icon {
-      width: 24px;
-      height: 24px;
-      cursor: pointer;
+    .search-btn {
+      width: 180px;
+      height: 34px;
+      padding: 0 10px;
+      margin: 0 30px;
+      border:2px solid #2e3033;
+      line-height: 34px;
+      background: rgba(255, 255, 255, .1);
+      transition: all 2s cubic-bezier(.25,.8,.25,1);
+      box-sizing: content-box;
+      &:hover {
+        border-color: @check-color;
+      }
     }
-
-    :global .icon-baitian {
-      color: #2e3033;
-    }
-
   }
 
   .active {
-    color: @check-color;
+    color: rgba(255,239,185, 0.6);
   }
 
 }

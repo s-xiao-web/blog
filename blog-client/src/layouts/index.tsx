@@ -1,74 +1,40 @@
 import React, { useState, useRef, useEffect } from 'react';
 // import { Scrollbars } from 'react-custom-scrollbars';
+import ReactDOM from 'react-dom';
 import { SpringSystem } from 'rebound';
-
+import BScroll from '@better-scroll/core'
 import BlogHeader from './components/BlogHeader';
+
+import classnames from 'classnames'
 
 import { config } from '../config';
 
-import styles from './index.css';
+import { BlogSearch } from './components/BlogSearch'
 
-import Scrollbars from './components/htasd'
-
-
-// const springSystem = new SpringSystem();
-// const spring = springSystem.createSpring();
-
+require('./index.less')
+import styles from './index.less';
 const BasicLayout: React.FC = props => {
 
   const { menu } = config;
   const [ top, SetTop ] = useState(0);
+  const [isSearch, setIsSearch] = useState(false);
   const eleRef = useRef()
 
-  // useEffect(() => {
-  //   spring.addListener({ onSpringUpdate: handleSpringUpdate });
-  //   return () => {
-  //     springSystem.removeAllListeners();
-  //   }
-  // }, [])
+  const layout = classnames({
+    'layout-container': true,
+    'layout-container-more': isSearch
+  })
 
   return (
-    <Scrollbars
-      className={styles.normal}
-      onUpdate={handleScroll}
-      // thumbMinSize={100}
-      ref={eleRef}
-    >
-      <BlogHeader menu={menu} scroll={top}></BlogHeader>
-      {props.children}
-      <button onClick={handleMenu}>123123</button>
-    </Scrollbars>
+    <div>
+      <BlogSearch isSearch={ isSearch }/>
+      <div className={layout}>
+        <BlogHeader menu={menu} scroll={top}></BlogHeader>
+        {props.children}
+      </div>
+    </div>
   );
 
-  function handleScroll({ scrollTop }) {
-    console.log( scrollTop );
-    SetTop(scrollTop);
-  }
-
-  function handleSpringUpdate() {
-    // const scrollbars:any = eleRef.current
-    // const val = spring.getCurrentValue();
-    // scrollbars.scrollTop(val);
-  }
-
-  function handleMenu(t) {
-    console.log(t);
-    const scrollbars: any = eleRef.current
-    const scrollHeight = scrollbars.getScrollHeight();
-    console.log( scrollHeight );
-    // console.log( document.body.clientHeight   );
-    // console.log( scrollHeight );
-
-    scrollbars.scrollTop(660 );
-
-    // console.log(top);
-    // const scrollbars: any = eleRef.current
-    // // scrollbars.scrollTop(0)
-    // const scrollTop = scrollbars.getScrollTop();
-    // spring.setCurrentValue(scrollTop).setAtRest();
-    // spring.setEndValue(0);
-
-  }
 };
 
 export default BasicLayout;

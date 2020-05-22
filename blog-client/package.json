@@ -8,6 +8,7 @@
     "precommit": "lint-staged"
   },
   "dependencies": {
+    "@better-scroll/core": "^2.0.0-beta.8",
     "antd": "^3.19.5",
     "classnames": "^2.2.6",
     "css-vars-ponyfill": "^2.3.1",
@@ -16,6 +17,7 @@
     "react": "^16.8.6",
     "react-custom-scrollbars": "^4.2.1",
     "react-dom": "^16.8.6",
+    "react-scroll": "^1.7.16",
     "rebound": "^0.1.0"
   },
   "devDependencies": {

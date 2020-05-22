@@ -35,6 +35,10 @@ const config: IConfig =  {
 
   alias:{
     theme: `${__dirname}/src/theme/`,
+  },
+  
+  cssLoaderOptions:{
+    localIdentName:'[local]'
   }
 }
 
