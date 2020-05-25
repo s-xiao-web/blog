@@ -1,8 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
-// import { Scrollbars } from 'react-custom-scrollbars';
-import ReactDOM from 'react-dom';
-import { SpringSystem } from 'rebound';
-import BScroll from '@better-scroll/core'
+import React, { useState, useEffect } from 'react';
 import BlogHeader from './components/BlogHeader';
 
 import classnames from 'classnames'
@@ -13,27 +9,69 @@ import { BlogSearch } from './components/BlogSearch'
 
 require('./index.less')
 import styles from './index.less';
+
+const data = [
+  {
+    id: 1,
+    label: 'vue'
+  },
+  {
+    id: 2,
+    label: 'react'
+  }
+]
+
 const BasicLayout: React.FC = props => {
 
   const { menu } = config;
-  const [ top, SetTop ] = useState(0);
+  const [ top, setTop ] = useState(0);
   const [isSearch, setIsSearch] = useState(false);
-  const eleRef = useRef()
+  const [searchData, setSearchData] = useState(data);
 
   const layout = classnames({
     'layout-container': true,
     'layout-container-more': isSearch
   })
 
+  useEffect(() => {
+    window.addEventListener('scroll', () => {
+      setTop(document.documentElement.scrollTop);
+    })
+    return () => window.removeEventListener('scroll', () => null);
+  }, [])
+
   return (
-    <div>
-      <BlogSearch isSearch={ isSearch }/>
+    <div className="layout-wrap">
+      <BlogSearch
+        esc
+        data={searchData}
+        onChange={onInpChange}
+        isSearch={isSearch}
+        onClose={changeClose}
+      />
       <div className={layout}>
-        <BlogHeader menu={menu} scroll={top}></BlogHeader>
+        <BlogHeader
+          menu={menu}
+          scroll={top}
+          onToggle={changeState}
+        ></BlogHeader>
         {props.children}
       </div>
     </div>
   );
+  
+  function changeState() {
+    setIsSearch(true)
+  }
+
+  function changeClose() {
+    setIsSearch(false)
+    setSearchData([])
+  }
+  
+  function onInpChange(val) {
+    console.log('输入了', val);
+  }
 
 };
 

@@ -19,7 +19,14 @@ interface props{
 
 const BlogHeader:React.FC<props> = props => {
 
-  const { menu, theme, dispatch, scroll } = props;
+  const { 
+    menu, 
+    theme,
+    dispatch, 
+    scroll, 
+    onToggle,
+    onClose
+  } = props;
 
   const currentRef = useRef();
 
@@ -55,7 +62,7 @@ const BlogHeader:React.FC<props> = props => {
         <ul className={style['menu-wrapper']}>
           { renderMenuItem }
         </ul>
-        <div className={style['search-btn']}>
+        <div className={style['search-btn']} onClick={() => onToggle()}>
           <span>图</span>
         </div>
         { renderIcon }
@@ -67,8 +74,8 @@ const BlogHeader:React.FC<props> = props => {
     dispatch({ type: 'system/changeTheme' });
   }
 
-  function testFn(screenHeight) {
-
+  function changeLayout() {
+    dispatch({  })    
   }
 }
 
