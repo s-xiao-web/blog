@@ -4,13 +4,28 @@
 @tag-hover-color: #6463ef;
 
 .article-item-wrapper {
+  // position: relative;
+  // width: 264px;
+  // height: 404px;
+  // overflow: hidden;
+  // cursor: pointer;
+  // // margin:1rem 2rem;
+  // background: @bg-color;
+  // box-shadow: 0 0 20px 0 rgba(0,0,0,.05);
+  // transition: transform 0.2s linear;
+  // box-shadow: 0 0 15px rgba(0,0,0,0.25);
   position: relative;
   width: 264px;
+  height: 404px;
   overflow: hidden;
-  cursor: pointer;
-  margin:1rem 2rem;
+  font-size: 50px;
+  text-align: center;
+  line-height: 500px;
+  border-radius: 15px;
   background: @bg-color;
-  box-shadow: 0 0 20px 0 rgba(0,0,0,.05);
+  transition: transform 0.2s linear;
+  box-shadow: 0 0 15px rgba(0,0,0,0.25);
+
 
   .article-pic-wrapper {
     position: relative;
@@ -83,6 +98,9 @@
       margin-bottom: 20px;
       .icon {
         margin-right: 10px;
+      }
+      span {
+        display: block;
       }
     }
 

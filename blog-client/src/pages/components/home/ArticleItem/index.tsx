@@ -1,13 +1,44 @@
-import React from 'react';
+import React, { useRef, useEffect } from 'react';
 import { Col } from 'antd';
 
 import style from './index.less';
 import img from '@/assets/20200429100126.png';
 
+require('./test.less')
+
 const ArticleItem = props => {
+
+  const ele = useRef(); 
+  
+  useEffect(() => {
+    const eleDom = ele.current;
+    eleDom.addEventListener('mousemove', function(e) {
+      const x = e.offsetX;
+      const y = e.offsetY;
+
+      var centerX = this.clientWidth / 2,
+          centerY = this.clientHeight / 2;
+
+      var deltaX = x - centerX,
+          deltaY = y - centerY;
+
+      var percentX = deltaX / centerX,
+          percentY = deltaY / centerY;
+      
+
+      var deg = 10;
+      
+      eleDom.style.transform = 'rotateX(' + deg * (-percentY) + 'deg)' + 'rotateY(' + deg * percentX + 'deg)'
+  
+
+    })
+
+        
+  }, [])
+
   return (
-    // <Col span={8}>
-      <div className={style['article-item-wrapper']}>
+    <div id="banner-wrap">
+      <div className={style['article-item-wrapper']} ref={ele}>
         <div className={style['article-pic-wrapper']}>
           <div className="article-img">
             <img src={img} alt=""/>
@@ -22,27 +53,30 @@ const ArticleItem = props => {
         </div>
         <div className={style['article-info-wrapper']}>
           <div className={style['article-diamond']}></div>
-          <div className={style['info-wrapper']}>
+          {/* <div className={style['info-wrapper']}>
             <div className={style['info-title']}>
               VUe中如何优雅的清楚定时器VUe中如何优雅的清楚定时器VUe中如何优雅的清楚定时器
             </div>
             <ul className={style['info-msg']}>
               <li className={style['msg-time']}>
-                <span className={style['icon']}>i</span>
+                <span className={style['icon1']}>i</span>
                 <span>2020-06-10</span>
               </li>
               <li className={style['msg-auth']}>
-                <span className={style['icon']}>i</span>
+                <span className={style['icon1']}>i</span>
                 <span>xiao</span>
               </li>
             </ul>
             <div className={style['info-tag']}>
               <span>#react</span>
             </div>
-          </div>
+          </div> */}
         </div>
       </div>
-    // </Col>
+    </div>
+    // <div style={{ perspective: '1000px' }}>
+    
+    // </div>
   )
 }
 

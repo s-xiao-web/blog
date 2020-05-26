@@ -1,0 +1,114 @@
+.article-item-wrapper {
+  position: relative;
+  width: 264px;
+  height: 404px;
+  overflow: hidden;
+  font-size: 50px;
+  text-align: center;
+  line-height: 500px;
+  border-radius: 15px;
+  background: #202229;
+  transition: transform 0.2s linear;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.25);
+}
+.article-item-wrapper .article-pic-wrapper {
+  position: relative;
+  height: 270px;
+  overflow: hidden;
+}
+.article-item-wrapper .article-pic-wrapper .article-img {
+  width: 100%;
+  height: 100%;
+  filter: blur(0px);
+}
+.article-item-wrapper .article-pic-wrapper .article-img img {
+  width: 100%;
+  height: 100%;
+}
+.article-item-wrapper .article-describe-wrapper {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  z-index: 1;
+  background: rgba(0, 0, 0, 0.1);
+}
+.article-item-wrapper .article-describe-wrapper .describe-container {
+  padding: 60px 20px 20px;
+  opacity: 0;
+  transition: transform .3s;
+  transform: translateY(100px);
+}
+.article-item-wrapper .article-info-wrapper {
+  position: relative;
+  padding: 20px;
+  z-index: 3;
+  background: #202229;
+}
+.article-item-wrapper .article-info-wrapper .article-diamond {
+  position: absolute;
+  left: -20px;
+  top: -5px;
+  width: 200%;
+  height: 36px;
+  background: #202229;
+  transform: rotateZ(6deg);
+}
+.article-item-wrapper .article-info-wrapper .info-wrapper {
+  position: relative;
+  z-index: 3;
+}
+.article-item-wrapper .article-info-wrapper .info-wrapper .info-title {
+  margin-bottom: 20px;
+  text-align: left;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: #3eaf7c;
+  transition: color .2s;
+}
+.article-item-wrapper .article-info-wrapper .info-msg {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+.article-item-wrapper .article-info-wrapper .info-msg .icon {
+  margin-right: 10px;
+}
+.article-item-wrapper .article-info-wrapper .info-msg span {
+  display: block;
+}
+.article-item-wrapper .article-info-wrapper .info-tag {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  line-height: 20px;
+}
+.article-item-wrapper .article-info-wrapper .info-tag span {
+  padding: 0px 4px;
+  border: 1px dashed #717171;
+}
+.article-item-wrapper:hover .describe-container {
+  opacity: 1;
+  color: #fff;
+  perspective: 1200px;
+  transform: translateY(0);
+}
+.article-item-wrapper:hover .article-describe-wrapper {
+  background: rgba(0, 0, 0, 0.4);
+}
+.article-item-wrapper:hover .article-pic-wrapper {
+  position: relative;
+}
+.article-item-wrapper:hover .article-img {
+  filter: blur(6px);
+}
+.article-item-wrapper:hover .info-wrapper .info-title {
+  color: #ff5275;
+}
+.article-item-wrapper:hover .info-tag span {
+  color: #6463ef;
+  border-color: #6463ef;
+}
