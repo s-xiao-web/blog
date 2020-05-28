@@ -1,5 +1,5 @@
 import React from 'react';
-import { Row } from 'antd';
+import { Row, Pagination } from 'antd';
 import style from './index.less';
 
 import BlogBanner from '@/pages/components/home/banner'
@@ -9,13 +9,20 @@ export default function() {
     <div className={style.normal}>
       <BlogBanner />
       <div className={style["content-wrapper"]}>
-        <Row >
+        <Row>
           <ArticleItem />
           <ArticleItem />
           <ArticleItem />
           <ArticleItem />
           <ArticleItem />
         </Row>
+        <div >
+          <Pagination
+            defaultCurrent={1}
+            total={50}
+            hideOnSinglePage
+          />
+        </div>
       </div>
     </div>
   );

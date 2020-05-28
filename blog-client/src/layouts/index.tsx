@@ -41,6 +41,10 @@ const BasicLayout: React.FC = props => {
     return () => window.removeEventListener('scroll', () => null);
   }, [])
 
+  useEffect(() => {
+    document.body['style'] = isSearch ? 'overflow: hidden; paddingRight: 8px' : ''
+  }, [isSearch])
+
   return (
     <div className="layout-wrap">
       <BlogSearch
