@@ -6,6 +6,7 @@ import classnames from 'classnames'
 import { config } from '../config';
 
 import { BlogSearch } from './components/BlogSearch'
+import BlogProgress from './components/BlogProgress'
 
 require('./index.less')
 import styles from './index.less';
@@ -57,6 +58,7 @@ const BasicLayout: React.FC = props => {
         ></BlogHeader>
         {props.children}
       </div>
+      <BlogProgress />
     </div>
   );
   

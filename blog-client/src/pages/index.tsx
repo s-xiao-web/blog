@@ -9,25 +9,14 @@ export default function() {
     <div className={style.normal}>
       <BlogBanner />
       <div className={style["content-wrapper"]}>
-        {/* <Row gutter={[50, 50]}> */}
-        <div className={style['list-wrapper']}>
+        <Row >
           <ArticleItem />
           <ArticleItem />
           <ArticleItem />
           <ArticleItem />
           <ArticleItem />
-          <ArticleItem />
-        </div>
+        </Row>
       </div>
-      
-      {
-        new Array(100).fill(1).map((item, index) => {
-          return (
-            <h1 key={index}>{index}</h1>
-          )
-        })
-      }
-
     </div>
   );
 }
