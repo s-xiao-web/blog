@@ -7,6 +7,7 @@ import { config } from '../config';
 
 import { BlogSearch } from './components/BlogSearch'
 import BlogProgress from './components/BlogProgress'
+import BlogFooter from './components/BlogFooter'
 
 require('./index.less')
 import styles from './index.less';
@@ -61,6 +62,7 @@ const BasicLayout: React.FC = props => {
           onToggle={changeState}
         ></BlogHeader>
         {props.children}
+        <BlogFooter />
       </div>
       <BlogProgress />
     </div>

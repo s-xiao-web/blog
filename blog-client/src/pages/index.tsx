@@ -16,7 +16,7 @@ export default function() {
           <ArticleItem />
           <ArticleItem />
         </Row>
-        <div >
+        <div className="pagination-wrapper">
           <Pagination
             defaultCurrent={1}
             total={50}

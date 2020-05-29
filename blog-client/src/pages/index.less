@@ -2,34 +2,23 @@
 .normal {
   font-family: Georgia, sans-serif;
   text-align: center;
-}
+  .content-wrapper {
+    width: 1000px;
+    padding: 20px 0;
+    margin: 0 auto; 
+  }
 
-.welcome {
-  height: 512px;
-  /* background: url(../assets/yay.jpg) no-repeat center 0; */
-  background-size: 512px 512px;
-}
+  .pagination-wrapper {
+    margin-bottom: 30px;
+  }
 
-.list {
-  font-size: 1.2em;
-  margin: 1.8em 0 0;
-  list-style: none;
-  line-height: 1.5em;
-}
-
-.list code {
-  background: #f7f7f7;
-}
-
-.content-wrapper {
-  width: 1000px;
-  padding: 20px 0;
-  margin: 0 auto;
-}
-
-.list-wrapper {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: space-around;
+  :global {
+    .ant-pagination-item, .ant-pagination-item-link {
+      background-color: #202229;
+      border-color: #202229;
+      a, .anticon  {
+        color: rgba(255, 255, 255, .8);
+      }
+    }
+  }
 }
