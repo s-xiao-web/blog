@@ -1,9 +1,8 @@
-import React, { useMemo, useRef } from 'react';
+import React, { useMemo, useRef, useEffect } from 'react';
 import { connect } from 'dva';
 import { map, get } from 'lodash';
 import classnames from 'classnames';
-
-import { BlogSearch } from '../BlogSearch';
+import router from 'umi/router';
 
 import style from './index.less';
 
@@ -18,14 +17,15 @@ interface props{
 }
 
 const BlogHeader:React.FC<props> = props => {
-
+  
   const { 
     menu, 
     theme,
     dispatch, 
     scroll, 
     onToggle,
-    onClose
+    onClose,
+    currentPath
   } = props;
 
   const currentRef = useRef();
@@ -42,10 +42,16 @@ const BlogHeader:React.FC<props> = props => {
     'icon-dark': theme,
   })
 
-  const renderMenuItem = map(menu, item => {
+  const renderMenuItem = map(menu, ({name, path}) => {
     return (
-      <li className={style['menu-item-wrapper']} key={item.name}>
-        <span className={style['menu-item']}>{item.name}</span>
+      <li 
+        className={classnames('menu-item-wrapper', {
+          'nav-active': path === currentPath
+        })}
+        key={name}
+        onClick={() => goToNavPage(path)}
+        >
+        <span className={style['menu-item']}>{name}</span>
       </li>
     )
   });
@@ -76,6 +82,10 @@ const BlogHeader:React.FC<props> = props => {
 
   function changeLayout() {
     dispatch({  })    
+  }
+
+  function goToNavPage(path) {
+    router.push(path);
   }
 }
 

@@ -12,6 +12,9 @@ const ProjectPage = () => {
       <Row>
         <ArticleItem />
         <ArticleItem />
+        <ArticleItem />
+        <ArticleItem />
+        <ArticleItem />
       </Row>
     </div>
   )

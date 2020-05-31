@@ -1,16 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import BlogHeader from './components/BlogHeader';
 
-import classnames from 'classnames'
+import classnames from 'classnames';
 
 import { config } from '../config';
 
-import { BlogSearch } from './components/BlogSearch'
-import BlogProgress from './components/BlogProgress'
-import BlogFooter from './components/BlogFooter'
+import BlogComp from './components/index';
 
-require('./index.less')
-import styles from './index.less';
+import './index.less';
+
+const { BlogSearch, BlogProgress, BlogFooter,  BlogHeader}  = BlogComp;
 
 const data = [
   {
@@ -23,8 +21,16 @@ const data = [
   }
 ]
 
-const BasicLayout: React.FC = props => {
+interface Props {
+  location: PathName,
+}
+interface PathName {
+  pathname:  string,
+}
 
+const BasicLayout: React.FC<Props> = props=> {
+
+  const { location: {pathname} } = props;
   const { menu } = config;
   const [ top, setTop ] = useState(0);
   const [isSearch, setIsSearch] = useState(false);
@@ -43,7 +49,9 @@ const BasicLayout: React.FC = props => {
   }, [])
 
   useEffect(() => {
-    document.body['style'] = isSearch ? 'overflow: hidden; paddingRight: 8px' : ''
+    const bodyStyle = document.body.style
+    bodyStyle.overflow  = isSearch ? 'hidden' : ''
+    bodyStyle.paddingRight = isSearch ? '8px' : ''
   }, [isSearch])
 
   return (
@@ -60,6 +68,7 @@ const BasicLayout: React.FC = props => {
           menu={menu}
           scroll={top}
           onToggle={changeState}
+          currentPath={pathname}
         ></BlogHeader>
         {props.children}
         <BlogFooter />

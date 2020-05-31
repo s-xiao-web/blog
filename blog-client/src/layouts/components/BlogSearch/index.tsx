@@ -8,7 +8,15 @@ const { Option } = SearchList;
 
 require('./index.less')
 
-export const BlogSearch: React.FC = props => {
+interface Props {
+  onClose: () => void,
+  isSearch: boolean,
+  esc: boolean,
+  onChange: () => void,
+  data: object
+}
+
+const BlogSearch: React.FC<Props> = props => {
 
   const { onClose, isSearch, esc, onChange, data } = props;
 
@@ -89,3 +97,5 @@ export const BlogSearch: React.FC = props => {
     setValue('')
   }
 }
+
+export default BlogSearch;

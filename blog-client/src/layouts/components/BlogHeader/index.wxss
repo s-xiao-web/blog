@@ -59,6 +59,20 @@
 .header-container .header-right-wrap :global .icon-baitian {
   color: #2e3033;
 }
-.header-container .active {
+.header-container .header-right-wrap .search-btn {
+  width: 180px;
+  height: 34px;
+  padding: 0 10px;
+  margin: 0 30px;
+  border: 2px solid #2e3033;
+  line-height: 34px;
+  background: rgba(255, 255, 255, 0.1);
+  transition: all 2s cubic-bezier(0.25, 0.8, 0.25, 1);
+  box-sizing: content-box;
+}
+.header-container .header-right-wrap .search-btn:hover {
+  border-color: #ffefb9;
+}
+.header-container .nav-active {
   color: #3eaf7c;
 }

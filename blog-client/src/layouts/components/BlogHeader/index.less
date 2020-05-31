@@ -7,6 +7,7 @@
 @f-color: #fff;
 @bg-color: #2e3033;
 @check-color: #ffefb9;
+@active-color: #3eaf7c;
 
 .header-container {
   .layout;
@@ -40,7 +41,7 @@
           cursor: pointer;
           transition: all 0.3s;
           &:hover {
-            color: @check-color;
+            color: @active-color;
           }
         }
         &:last-child {
@@ -78,8 +79,8 @@
     }
   }
 
-  .active {
-    color: rgba(255,239,185, 0.6);
+  .nav-active {
+    color: @active-color;
   }
 
 }
