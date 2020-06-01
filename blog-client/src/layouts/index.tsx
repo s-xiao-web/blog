@@ -54,6 +54,11 @@ const BasicLayout: React.FC<Props> = props=> {
     bodyStyle.paddingRight = isSearch ? '8px' : ''
   }, [isSearch])
 
+  useEffect(() => {
+    document.onmousedown = () => false;
+    document.onselectstart = () => false;
+  }, [])
+
   return (
     <div className="layout-wrap">
       <BlogSearch
