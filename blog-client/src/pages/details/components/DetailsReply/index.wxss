@@ -1,0 +1,93 @@
+.reply-wrapper {
+  width: 800px;
+  padding: 20px;
+  margin: 0 auto;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1), 0 0 20px rgba(0, 0, 0, 0.05);
+  background: #191a1e;
+}
+.reply-wrapper .reply-user-info {
+  display: flex;
+  align-content: center;
+  justify-content: center;
+  overflow: hidden;
+  padding-bottom: 20px;
+}
+.reply-wrapper .reply-user-info .reply-item {
+  position: relative;
+  width: 100%;
+  padding-left: 50px;
+  background: #191a1e;
+}
+.reply-wrapper .reply-user-info .reply-item span {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  color: #fff;
+  transform: translate(50%, -50%);
+}
+.reply-wrapper .reply-user-info .reply-item input {
+  width: 100%;
+  height: 30px;
+  outline: none;
+  line-height: 30px;
+  border: 0;
+  border-bottom: 1px dashed #ccc;
+  background: #191a1e;
+  transition: all .3s;
+}
+.reply-wrapper .reply-user-info .reply-item input:focus {
+  border-bottom: 1px dashed #ff5275;
+}
+.reply-wrapper .reply-text-wrap {
+  width: 100%;
+}
+.reply-wrapper .reply-text-wrap .reply-text {
+  width: 100%;
+  height: 120px;
+  padding: 10px;
+  overflow: hidden;
+  overflow-wrap: break-word;
+  outline: none;
+  resize: none;
+  border: none;
+  max-width: 100%;
+  background: rgba(237, 234, 234, 0.08);
+  color: #bbbebe;
+}
+.reply-wrapper .reply-review {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  overflow: hidden;
+  margin-top: 10px;
+}
+.reply-wrapper .reply-review li:nth-child(2) {
+  width: 1px;
+  height: 14px;
+  margin: 0 10px;
+  background: #333;
+}
+.reply-wrapper .reply-vemojis {
+  font-size: 18px;
+  text-align: justify;
+  max-height: 145px;
+  overflow: auto;
+  margin-bottom: 10px;
+  color: #999;
+  line-height: 1.5;
+  box-shadow: 0 0 1px #f0f0f0;
+}
+.reply-wrapper .reply-vemojis i {
+  font-style: normal;
+  padding: 7px 0;
+  width: 38px;
+  cursor: pointer;
+  text-align: center;
+  display: inline-block;
+  vertical-align: middle;
+}
+.reply-wrapper .reply-btn {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}

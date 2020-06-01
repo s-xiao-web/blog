@@ -55,8 +55,8 @@ const BasicLayout: React.FC<Props> = props=> {
   }, [isSearch])
 
   useEffect(() => {
-    document.onmousedown = () => false;
-    document.onselectstart = () => false;
+    // document.onmousedown = () => false;
+    // document.onselectstart = () => false;
   }, [])
 
   return (

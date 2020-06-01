@@ -1,15 +1,16 @@
 import React from 'react';
 import { Anchor } from 'antd';
-const { Link } = Anchor;
 
 import style from './index.less';
+const { Link } = Anchor;
 
 const DetailsAncher = () => {
   return ( 
     <div className={style['anchor-wrapper']}>
       <Anchor
-      // targetOffset={window.innerHeight / 2}
-      //   onClick={e => e.preventDefault()}
+        // targetOffset={window.innerHeight / 1.5}
+        onClick={e => e.preventDefault()}
+        bounds={600}
       >
         <Link href="#components-anchor-demo-basic" title="Basic demo" />
         <Link href="#components-anchor-demo-static" title="Static demo" />
