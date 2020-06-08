@@ -14,6 +14,9 @@ import { User }  from './entitys/user.entity'
 
 import { LoggerMiddleware  } from './middleware/logger.middleware'
 
+
+console.log( __dirname )
+
 @Module({
   imports: [
     TypeOrmModule.forRoot({
@@ -24,7 +27,8 @@ import { LoggerMiddleware  } from './middleware/logger.middleware'
       password: 'sunxiao5920whh',
       database: 'blog',
       // entities: ["src/**/*.entitys{.ts,.js}"],
-      entities: [ User ],
+      entities:[__dirname + '/**/*.entity{.ts,.js}'],
+      // entities: [ User ],
       synchronize: true,
       logging: false
     }),
