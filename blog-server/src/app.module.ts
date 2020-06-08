@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { Module, NestModule, MiddlewareConsumer } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 
@@ -6,6 +6,13 @@ import { TypeOrmModule } from '@nestjs/typeorm'
 import { UserService } from './user/user.service';
 
 import { UserModule } from './user/user.module';
+import { CatsService } from './cats/cats.service';
+import { CatsController } from './cats/cats.controller';
+import { CatsModule } from './cats/cats.module';
+
+import { User }  from './entitys/user.entity'
+
+import { LoggerMiddleware  } from './middleware/logger.middleware'
 
 @Module({
   imports: [
@@ -16,12 +23,19 @@ import { UserModule } from './user/user.module';
       username: 'root',
       password: 'sunxiao5920whh',
       database: 'blog',
-      entities: ["src/**/*.entity{.ts,.js}"],
-      synchronize: true
+      // entities: ["src/**/*.entitys{.ts,.js}"],
+      entities: [ User ],
+      synchronize: true,
+      logging: false
     }),
-    UserModule
+    UserModule,
+    CatsModule
   ],
   controllers: [AppController],
-  providers: [AppService, UserService],
+  providers: [AppService],
 })
-export class AppModule {}
+export class AppModule implements NestModule{
+  configure(consumer: MiddlewareConsumer) {
+    consumer.apply(LoggerMiddleware).forRoutes('cats');
+  }
+}
