@@ -1,21 +1,14 @@
 import { Module, NestModule, MiddlewareConsumer } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-
 import { TypeOrmModule } from '@nestjs/typeorm'
-import { UserService } from './user/user.service';
 
 import { UserModule } from './user/user.module';
-import { CatsService } from './cats/cats.service';
-import { CatsController } from './cats/cats.controller';
 import { CatsModule } from './cats/cats.module';
 
-import { User }  from './entitys/user.entity'
-
 import { LoggerMiddleware  } from './middleware/logger.middleware'
-
-
-console.log( __dirname )
+import { CategoryController } from './category/category.controller';
+import { CategoryModule } from './category/category.module';
 
 @Module({
   imports: [
@@ -33,7 +26,8 @@ console.log( __dirname )
       logging: false
     }),
     UserModule,
-    CatsModule
+    CatsModule,
+    CategoryModule
   ],
   controllers: [AppController],
   providers: [AppService],
