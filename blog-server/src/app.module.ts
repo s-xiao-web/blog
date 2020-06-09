@@ -1,32 +1,33 @@
 import { Module, NestModule, MiddlewareConsumer } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { TypeOrmModule } from '@nestjs/typeorm'
+import { SequelizeModule } from '@nestjs/sequelize'
 
 import { UserModule } from './user/user.module';
 import { CatsModule } from './cats/cats.module';
 
 import { LoggerMiddleware  } from './middleware/logger.middleware'
-import { CategoryController } from './category/category.controller';
-import { CategoryModule } from './category/category.module';
+import { CategoryController } from './workbench/category/category.controller';
+import { CategoryModule } from './workbench/category/category.module';
+
+import { Category } from './models/category.model'
 
 @Module({
   imports: [
-    TypeOrmModule.forRoot({
-      type: 'mysql',
+    SequelizeModule.forRoot({
+      dialect: 'mysql',
       host: 'localhost',
       port: 3306,
       username: 'root',
       password: 'sunxiao5920whh',
       database: 'blog',
-      // entities: ["src/**/*.entitys{.ts,.js}"],
-      entities:[__dirname + '/**/*.entity{.ts,.js}'],
-      // entities: [ User ],
+      autoLoadModels: true,
       synchronize: true,
-      logging: false
+      timezone: '+08:00',
+      models: [__dirname + 'models/category.model.ts']
     }),
-    UserModule,
-    CatsModule,
+    // UserModule,
+    // CatsModule,
     CategoryModule
   ],
   controllers: [AppController],
