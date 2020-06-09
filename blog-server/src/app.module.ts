@@ -3,14 +3,8 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { SequelizeModule } from '@nestjs/sequelize'
 
-import { UserModule } from './user/user.module';
-import { CatsModule } from './cats/cats.module';
-
 import { LoggerMiddleware  } from './middleware/logger.middleware'
-import { CategoryController } from './workbench/category/category.controller';
 import { CategoryModule } from './workbench/category/category.module';
-
-import { Category } from './models/category.model'
 
 @Module({
   imports: [
@@ -24,10 +18,12 @@ import { Category } from './models/category.model'
       autoLoadModels: true,
       synchronize: true,
       timezone: '+08:00',
+      define: {
+        timestamps: true,
+        freezeTableName: true
+      },
       models: [__dirname + 'models/category.model.ts']
     }),
-    // UserModule,
-    // CatsModule,
     CategoryModule
   ],
   controllers: [AppController],

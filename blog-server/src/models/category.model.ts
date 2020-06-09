@@ -11,7 +11,9 @@ import {
 // import moment from 'monent';
 
 @Table({
-  tableName: 'category'
+  // createdAt: true,
+  // updatedAt: 'updateTimestamp',
+  // paranoid: true
 })
 export class Category extends Model<Category> {
 
@@ -25,5 +27,5 @@ export class Category extends Model<Category> {
 
   @Column
   path: string
-  
+
 }

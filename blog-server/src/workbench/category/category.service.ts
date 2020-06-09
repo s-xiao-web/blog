@@ -16,8 +16,16 @@ export class CategoryService {
     private readonly sequelize: Sequelize,
   ) {}
 
-  async createMenu(CreatMenuDto: CreateMenuDto): Promise<Category> {
-    return await this.categoryModel.create(CreatMenuDto);
+  async createMenu(CreatMenuDto: CreateMenuDto) {
+    const sql = `
+      INSERT INTO category (value,path) VALUES ('add', '/pageasdasd')
+    `
+    const result = await this.sequelize.query(sql, {
+      type: sequelizes.QueryTypes.INSERT,
+    })
+    console.log(result);
+    return result
+    // return await this.categoryModel.create(CreatMenuDto);
   }
 
   async getMenus(): Promise<Category[]> {
