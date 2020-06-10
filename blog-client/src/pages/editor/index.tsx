@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import BraftEditor from 'braft-editor';
 
 import 'braft-editor/dist/index.css'
+import 'braft-editor/dist/output.css'
+import style from './index.less'
 
 const BasicDemo = () => {
 
@@ -9,7 +11,7 @@ const BasicDemo = () => {
   const [editor, setEditor] = useState(editorState)
   const [textVal, setTextVal] = useState('')
   return (
-    <div style={{paddingTop: '100px', backgroundColor: '#fff',zIndex: 1000}}>
+    <div className={style['editor-container']}>
         <div className="editor-wrapper" style={{
           height: '500px'
         }}>
