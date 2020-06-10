@@ -17,15 +17,13 @@ export class CategoryService {
   ) {}
 
   async createMenu(CreatMenuDto: CreateMenuDto) {
+    const { value, path } = CreatMenuDto;
     const sql = `
-      INSERT INTO category (value,path) VALUES ('add', '/pageasdasd')
+      INSERT INTO category (value,path) VALUES ('${value}','${path}')
     `
-    const result = await this.sequelize.query(sql, {
+    return await this.sequelize.query(sql, {
       type: sequelizes.QueryTypes.INSERT,
-    })
-    console.log(result);
-    return result
-    // return await this.categoryModel.create(CreatMenuDto);
+    });
   }
 
   async getMenus(): Promise<Category[]> {
@@ -35,8 +33,6 @@ export class CategoryService {
         id, value, path
       FROM
         category
-      WHERE
-        id = 1
     `;
     
     return await this.sequelize.query(sql, {
@@ -49,3 +45,4 @@ export class CategoryService {
 
 
 // 后续需要解决如何讲这个函数抽离出去
+// 需要看下管道 拦截器
