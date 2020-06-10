@@ -42,16 +42,16 @@ const BlogHeader:React.FC<props> = props => {
     'icon-dark': theme,
   })
 
-  const renderMenuItem = map(menu, ({name, path}) => {
+  const renderMenuItem = map(menu, ({value, path}) => {
     return (
       <li 
         className={classnames('menu-item-wrapper', {
           'nav-active': path === currentPath
         })}
-        key={name}
+        key={value}
         onClick={() => goToNavPage(path)}
         >
-        <span className={style['menu-item']}>{name}</span>
+        <span className={style['menu-item']}>{value}</span>
       </li>
     )
   });

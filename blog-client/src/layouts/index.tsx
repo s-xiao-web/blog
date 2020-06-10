@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
-
+import { connect } from 'dva'
 import classnames from 'classnames';
-
-import { config } from '../config';
+import { get } from 'lodash';
 
 import BlogComp from './components/index';
 
@@ -22,7 +21,8 @@ const data = [
 ]
 
 interface Props {
-  location: PathName,
+  location: PathName;
+  menuList: Array<object>
 }
 interface PathName {
   pathname:  string,
@@ -30,12 +30,15 @@ interface PathName {
 
 const BasicLayout: React.FC<Props> = props=> {
 
-  const { location: {pathname} } = props;
-  const { menu } = config;
+  const {
+    location: { pathname },
+    menuList,
+    dispatch
+  } = props;
   const [ top, setTop ] = useState(0);
   const [isSearch, setIsSearch] = useState(false);
   const [searchData, setSearchData] = useState(data);
-
+  
   const layout = classnames({
     'layout-container': true,
     'layout-container-more': isSearch
@@ -55,8 +58,12 @@ const BasicLayout: React.FC<Props> = props=> {
   }, [isSearch])
 
   useEffect(() => {
-    // document.onmousedown = () => false;
-    // document.onselectstart = () => false;
+    dispatch({
+      type: 'system/getMenu',
+      callback(){
+        console.log( '回调函数' );
+      }
+    })
   }, [])
 
   return (
@@ -70,7 +77,7 @@ const BasicLayout: React.FC<Props> = props=> {
       />
       <div className={layout}>
         <BlogHeader
-          menu={menu}
+          menu={menuList}
           scroll={top}
           onToggle={changeState}
           currentPath={pathname}
@@ -97,4 +104,4 @@ const BasicLayout: React.FC<Props> = props=> {
 
 };
 
-export default BasicLayout;
+export default connect(state => ({menuList: get(state, 'system.menuList')}))(BasicLayout);

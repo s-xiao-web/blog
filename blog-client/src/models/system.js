@@ -1,22 +1,32 @@
 import { get } from 'lodash';
 
+import { getMenuList } from '../api/category';
+
+
 export default {
 
   namespace: 'system',
   
   state: {
     theme: true,
-    isSearch: false
+    isSearch: false,
+    menuList: []
   },
 
   reducers: {
-    change: (state, { payload }) => ({...state, ...payload})
+    save: (state, { payload }) => ({...state, ...payload})
   },
 
   effects: {
-    *changeTheme({payload}, { put, select}) {
+    *changeTheme(_, { put, select}) {
       const { theme } =yield select(state => ({theme: get(state, 'system.theme')}));
-      yield put({type: 'change', payload: { theme: !theme }})
+      yield put({type: 'save', payload: { theme: !theme }})
+    },
+
+    *getMenu({callback}, { call, put }) {
+      const result = yield call(getMenuList);
+      const menuList = result.data;
+      yield put({type: 'save', payload: { menuList }});
     }
   }
 }

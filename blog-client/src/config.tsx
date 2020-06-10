@@ -18,7 +18,8 @@ export const config = {
       path: '/record'
     },
     {
-      name: 'GitHub'
+      name: 'GitHub',
+      path: 'GitHub'
     },
   ]
 
