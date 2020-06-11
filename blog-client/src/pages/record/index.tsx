@@ -1,6 +1,8 @@
 import React from 'react';
 import { Timeline, Icon } from 'antd';
 
+import BaseLayout from '../components/baseLayout';
+
 import style from './index.less';
 
 const RecordPage = () => {
@@ -15,11 +17,13 @@ const RecordPage = () => {
   })
 
   return (
-    <div className={style["record-page-wrapper"]}>
-      <Timeline mode="alternate">
-        {renderTimeLineItem}
-      </Timeline>
-    </div>
+    <BaseLayout>
+      <div className={style["record-page-wrapper"]}>
+        <Timeline mode="alternate">
+          {renderTimeLineItem}
+        </Timeline>
+      </div>
+    </BaseLayout>
   )
 
 }

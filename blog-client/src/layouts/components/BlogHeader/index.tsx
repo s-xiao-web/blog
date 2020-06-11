@@ -11,7 +11,7 @@ interface option {
 }
 interface props{
   readonly menu: Array<Object>,
-  theme: boolean,
+  isLogin: boolean,
   dispatch: (option:option)=> void,
   scroll: number
 }
@@ -20,7 +20,7 @@ const BlogHeader:React.FC<props> = props => {
   
   const { 
     menu, 
-    theme,
+    isLogin,
     dispatch, 
     scroll, 
     onToggle,
@@ -38,8 +38,8 @@ const BlogHeader:React.FC<props> = props => {
   const icons = classnames({
     iconfont: true,
     'theme-icon': true,
-    'icon-baitian': !theme,
-    'icon-dark': theme,
+    'icon-baitian': !isLogin,
+    'icon-dark': isLogin,
   })
 
   const renderMenuItem = map(menu, ({value, path}) => {
@@ -77,7 +77,11 @@ const BlogHeader:React.FC<props> = props => {
   )
   
   function changeTheme() {
-    dispatch({ type: 'system/changeTheme' });
+    if ( isLogin ) return
+    dispatch({
+      type: 'system/visbleLogin',
+      payload: !isLogin
+    });
   }
 
   function changeLayout() {
@@ -89,4 +93,4 @@ const BlogHeader:React.FC<props> = props => {
   }
 }
 
-export default connect(state => ({theme: get(state, 'system.theme')}))(BlogHeader);
+export default connect(state => ({isLogin: get(state, 'system.isLogin')}))(BlogHeader);

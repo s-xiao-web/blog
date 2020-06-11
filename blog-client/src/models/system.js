@@ -10,6 +10,7 @@ export default {
   state: {
     theme: true,
     isSearch: false,
+    isLogin: false,
     menuList: []
   },
 
@@ -21,6 +22,10 @@ export default {
     *changeTheme(_, { put, select}) {
       const { theme } =yield select(state => ({theme: get(state, 'system.theme')}));
       yield put({type: 'save', payload: { theme: !theme }})
+    },
+
+    *visbleLogin(payload, { put, select }) {
+      yield put({type: 'save', payload: { isLogin: payload }});
     },
 
     *getMenu({callback}, { call, put }) {

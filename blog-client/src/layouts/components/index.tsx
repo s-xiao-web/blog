@@ -5,6 +5,8 @@ interface ConfigRouter {
   BlogProgress?: Function,
   BlogFooter?: Function,
   BlogHeader?: Function,
+  BlogBaseLayout?: Function,
+  BlogLogin?: Function,
   [propName: string]: any
 }
 

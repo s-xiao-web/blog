@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'dva'
 import classnames from 'classnames';
-import { get } from 'lodash';
+import { get, eq } from 'lodash';
 
 import BlogComp from './components/index';
 
 import './index.less';
 
-const { BlogSearch, BlogProgress, BlogFooter,  BlogHeader}  = BlogComp;
+const { BlogSearch, BlogProgress, BlogFooter, BlogHeader, BlogBaseLayout, BlogLogin } = BlogComp;
 
 const data = [
   {
@@ -35,10 +35,13 @@ const BasicLayout: React.FC<Props> = props=> {
     menuList,
     dispatch
   } = props;
+
   const [ top, setTop ] = useState(0);
   const [isSearch, setIsSearch] = useState(false);
   const [searchData, setSearchData] = useState(data);
-  
+
+  const renderChildLayout = eq(pathname, '/') ? props.children : <BlogBaseLayout>{ props.children }</BlogBaseLayout>
+
   const layout = classnames({
     'layout-container': true,
     'layout-container-more': isSearch
@@ -82,7 +85,8 @@ const BasicLayout: React.FC<Props> = props=> {
           onToggle={changeState}
           currentPath={pathname}
         ></BlogHeader>
-        {props.children}
+          { renderChildLayout }
+        <BlogLogin />
         <BlogFooter />
       </div>
       <BlogProgress />
