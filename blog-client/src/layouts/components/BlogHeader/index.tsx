@@ -25,7 +25,9 @@ const BlogHeader:React.FC<props> = props => {
     scroll, 
     onToggle,
     onClose,
-    currentPath
+    currentPath,
+    changeVisible,
+    onClickBtn
   } = props;
 
   const currentRef = useRef();
@@ -56,7 +58,7 @@ const BlogHeader:React.FC<props> = props => {
     )
   });
 
-  const renderIcon = <span className={icons} onClick={changeTheme}></span>
+  const renderIcon = <span className={icons} onClick={() => onClickBtn()}></span>
 
   return (
     <div className={style['header-container']} ref={currentRef} style={{ currentScroll }}>
@@ -85,7 +87,7 @@ const BlogHeader:React.FC<props> = props => {
   }
 
   function changeLayout() {
-    dispatch({  })    
+    dispatch({  })
   }
 
   function goToNavPage(path) {

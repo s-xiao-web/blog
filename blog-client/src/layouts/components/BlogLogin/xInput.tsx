@@ -6,13 +6,20 @@ const Xinpit = props => {
 
   const {
     label = '',
-    placeholder = ''
+    placeholder = '',
+    type = 'text',
+    onChange
   } = props;
 
   return (
     <div className={style['inp-container']}>
       <span className={style['inp-tips']}>{label}</span>
-      <input type="text" className={style['inp-ele']} placeholder={placeholder}/>
+      <input
+        type={type} 
+        className={style['inp-ele']} 
+        placeholder={placeholder}
+        onChange={e => onChange(e.target.value)}
+      />
     </div>
   )
 }

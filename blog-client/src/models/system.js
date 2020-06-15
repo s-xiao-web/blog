@@ -1,7 +1,7 @@
 import { get } from 'lodash';
 
 import { getMenuList } from '../api/category';
-
+import { postUserLogin } from '../api/user';
 
 export default {
 
@@ -32,6 +32,11 @@ export default {
       const result = yield call(getMenuList);
       const menuList = result.data;
       yield put({type: 'save', payload: { menuList }});
+    },
+
+    *postUserLogin({ payload, callback }, { call, put }) {
+      const result = yield call(postUserLogin, payload);
+      callback(result)
     }
   }
 }

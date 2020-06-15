@@ -39,6 +39,7 @@ const BasicLayout: React.FC<Props> = props=> {
   const [ top, setTop ] = useState(0);
   const [isSearch, setIsSearch] = useState(false);
   const [searchData, setSearchData] = useState(data);
+  const [visibleDialog, setVisibleDialog] = useState(false)
 
   const renderChildLayout = eq(pathname, '/') ? props.children : <BlogBaseLayout>{ props.children }</BlogBaseLayout>
 
@@ -82,11 +83,12 @@ const BasicLayout: React.FC<Props> = props=> {
         <BlogHeader
           menu={menuList}
           scroll={top}
+          onClickBtn={changeVisible}
           onToggle={changeState}
           currentPath={pathname}
         ></BlogHeader>
           { renderChildLayout }
-        <BlogLogin />
+        <BlogLogin visible={visibleDialog} onClose={val => setVisibleDialog(val)} />
         <BlogFooter />
       </div>
       <BlogProgress />
@@ -106,6 +108,14 @@ const BasicLayout: React.FC<Props> = props=> {
     console.log('输入了', val);
   }
 
+  function changeVisible() {
+    setVisibleDialog(true);
+  }
+
+  function closeDialog() {
+    setVisibleDialog(false);
+  }
+  
 };
 
 export default connect(state => ({menuList: get(state, 'system.menuList')}))(BasicLayout);

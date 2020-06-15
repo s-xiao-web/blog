@@ -1,37 +1,55 @@
-import React, { useState } from 'react';
-import { Modal, Button } from 'antd';
-import { RocketOutlined } from '@ant-design/icons';
+import React, { useState, useRef } from 'react';
+import { connect } from 'dva';
+import { get } from 'lodash';
+import { Modal, Button, message } from 'antd';
+import { RocketOutlined, CloseCircleOutlined } from '@ant-design/icons';
 
 import XInput from './xInput'
 
 import style from './index.less';
 
-const BlogLogin = () => {
+const BlogLogin = props => {
 
-  const [visible, setVisible] = useState(true);
+  const { dispatch, visible, onClose } = props;
+ 
+  const [info, setInfo] = useState({username: '', password: ''});
 
   return (
     <Modal
       visible={visible}
       footer={null}
+      keyboard
       closable={false}
-      bodyStyle={{padding: '10px'}}      
+      bodyStyle={{padding: '10px'}}
+      afterClose={() => setInfo({})}
     >
       <div className={style['login-wrapper']}>
-        <h3 className={style['header-wrapper']}>
-          <RocketOutlined className={style['icon-line']}/>
-          <span>Welcome You</span>
-        </h3>
+        <div className={style['header-wrapper']}>
+          <h3 className={style['header-title']}>
+            <RocketOutlined className={style['icon-line']}/>
+            <span>Welcome You</span>
+          </h3>
+          <CloseCircleOutlined className={style['header-close-icon']} onClick={() => onClose(false)}/>
+        </div>
         <ul>
           <li>
-            <XInput label="账号：" placeholder="这里填写登录账号" />
+            <XInput
+              label="账号："
+              value={info.username}
+              placeholder="这里填写登录账号"
+              onChange={val => changeInp('username', val)}/>
           </li>
           <li>
-            <XInput label="密码" placeholder="这里填写密码" />
+            <XInput 
+              label="密码"
+              value={info.password}
+              type="password"
+              placeholder="这里填写密码" 
+              onChange={val => changeInp('password', val)}/>
           </li>
         </ul>
         <div className={style['btn-wrapper']}>
-          <Button block>登录</Button>
+          <Button block onClick={login}>登录</Button>
         </div>
         <div className={style['tips-wrapper']}>
           <span>温馨提示：登录即是注册</span>
@@ -39,6 +57,23 @@ const BlogLogin = () => {
       </div>
     </Modal>
   )
+
+  function changeInp(key, val) {
+    setInfo({...info, [key]: val})
+  }
+
+  function login() {
+    dispatch({
+      type: 'system/postUserLogin',
+      payload: info,
+      callback: res => {
+        onClose(false);
+        message.success('This is a success message');
+      }
+    })
+  }
 }
 
-export default BlogLogin;
+export default connect(({ system }) => {
+  return {}
+})(BlogLogin);
