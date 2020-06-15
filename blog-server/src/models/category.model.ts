@@ -4,9 +4,6 @@ import {
   Model, 
   PrimaryKey, 
   AutoIncrement,
-  Default,
-  CreatedAt,
-  UpdatedAt,
 } from 'sequelize-typescript';
 // import moment from 'monent';
 

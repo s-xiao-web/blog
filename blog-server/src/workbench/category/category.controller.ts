@@ -20,7 +20,7 @@ export class CategoryController {
   }
 
   @Post('createMenu')
-  createMenu(@Body() createUserDto: Test ) {
+  createMenu(@Body() createUserDto: CreateMenuDto ) {
     return this.categoryService.createMenu(createUserDto);
   }
 
