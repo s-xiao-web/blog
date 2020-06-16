@@ -22,6 +22,7 @@
     "react": "^16.8.6",
     "react-custom-scrollbars": "^4.2.1",
     "react-dom": "^16.8.6",
+    "react-prism": "^4.3.2",
     "react-scroll": "^1.7.16",
     "rebound": "^0.1.0",
     "umi-request": "^1.3.3"

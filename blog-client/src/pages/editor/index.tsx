@@ -2,19 +2,35 @@ import React, { useEffect, useState } from 'react';
 import BraftEditor from 'braft-editor';
 import CodeHighlighter from 'braft-extensions/dist/code-highlighter';
 
-import { Button } from 'antd';
+import { Button, Form, Input } from 'antd';
 
 import 'braft-editor/dist/index.css'
 import 'braft-extensions/dist/code-highlighter.css'
+import 'prismjs/themes/prism.css'
 import style from './index.less'
 
+// import Prism from 'draft-js-prism'
+// require('draft-js-prism')
+
+import { PrismCode } from 'react-prism'
+
+import { postCreateArticle, getArticleList } from '../../api/article'
+
+require('prismjs');
+require('prismjs/themes/prism.css');
 BraftEditor.use(CodeHighlighter())
+
+// Prism.hooks.add('before-highlight', function(env) {
+//   env.element.innerHTML = env.element.innerHTML.replace(/<br\s*\/?>/g,'\n');
+//   env.code = env.element.textContent.replace(/^(?:\r?\n|\r)/,'');
+// });
 
 const BasicDemo = () => {
 
   const editorState = BraftEditor.createEditorState('<p>Hello <b>World!</b></p>')
   const [editor, setEditor] = useState(editorState)
   const [textVal, setTextVal] = useState('')
+  const [ele, setEle] = useState('')
 
   const extendControls = [
     {
@@ -25,8 +41,38 @@ const BasicDemo = () => {
     }
   ]
 
+  useEffect(() => {
+
+    getArticleList({id: 1}).then(res => {
+      setEle(res.data.comment)
+    })
+
+  }, [])
+
   return (
     <div className={style['editor-container']}>
+
+      <div
+          className='editor-wrapper'
+          dangerouslySetInnerHTML={{__html: ele }}
+        >
+        </div>
+      <PrismCode className="language-javascript">
+        <div
+          className='editor-wrapper'
+          dangerouslySetInnerHTML={{__html: ele }}
+        >
+        </div>
+      </PrismCode>
+      {/* <Form 
+        onFinish={onFinish}
+      >
+        <Form.Item>
+
+        </Form.Item>
+      </Form> */}
+
+
       <div className="editor-container" style={{
         height: '500px',
         overflow: 'hidden'
@@ -49,10 +95,22 @@ const BasicDemo = () => {
   function handleChange(editorState) {
     setEditor(editorState);
     setTextVal( editorState.toHTML() )
+
   }
 
   function getEditor() {
-    console.log( textVal );
+
+    // const data = {
+    //   topic: 'vue管理系统从0到1-插件配置',
+    //   auth: 'sunxiao',
+    //   tag: 'react',
+    //   time: '2020-06-36',
+    //   readTime: '1 min read' // 这个是阅读预估的时间
+    // }
+
+    postCreateArticle(textVal).then(res => {
+      console.log(res);
+    })
   }
 
   function preview() {
@@ -64,6 +122,10 @@ const BasicDemo = () => {
     window.previewWindow = window.open()
     window.previewWindow.document.write(buildPreviewHtml())
     window.previewWindow.document.close()
+
+  }
+
+  function onFinish() {
 
   }
 
