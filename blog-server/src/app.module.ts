@@ -6,6 +6,7 @@ import { SequelizeModule } from '@nestjs/sequelize'
 import { LoggerMiddleware  } from './middleware/logger.middleware'
 import { CategoryModule } from './workbench/category/category.module';
 import { UserModule } from './workbench/user/user.module';
+import { ArticleModule } from './workbench/article/article.module';
 
 @Module({
   imports: [
@@ -26,7 +27,8 @@ import { UserModule } from './workbench/user/user.module';
       models: [__dirname + 'models/category.model.ts']
     }),
     CategoryModule,
-    UserModule
+    UserModule,
+    ArticleModule
   ],
   controllers: [AppController],
   providers: [AppService],
