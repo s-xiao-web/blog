@@ -2,28 +2,16 @@ import React, { useEffect, useState } from 'react';
 import BraftEditor from 'braft-editor';
 import CodeHighlighter from 'braft-extensions/dist/code-highlighter';
 
-import { Button, Form, Input } from 'antd';
+import { Button } from 'antd';
 
 import 'braft-editor/dist/index.css'
 import 'braft-extensions/dist/code-highlighter.css'
-import 'prismjs/themes/prism.css'
+
 import style from './index.less'
-
-// import Prism from 'draft-js-prism'
-// require('draft-js-prism')
-
-import { PrismCode } from 'react-prism'
 
 import { postCreateArticle, getArticleList } from '../../api/article'
 
-require('prismjs');
-require('prismjs/themes/prism.css');
 BraftEditor.use(CodeHighlighter())
-
-// Prism.hooks.add('before-highlight', function(env) {
-//   env.element.innerHTML = env.element.innerHTML.replace(/<br\s*\/?>/g,'\n');
-//   env.code = env.element.textContent.replace(/^(?:\r?\n|\r)/,'');
-// });
 
 const BasicDemo = () => {
 
@@ -44,7 +32,7 @@ const BasicDemo = () => {
   useEffect(() => {
 
     getArticleList({id: 1}).then(res => {
-      setEle(res.data.comment)
+      setEle(res.comment)
     })
 
   }, [])
@@ -57,21 +45,6 @@ const BasicDemo = () => {
           dangerouslySetInnerHTML={{__html: ele }}
         >
         </div>
-      <PrismCode className="language-javascript">
-        <div
-          className='editor-wrapper'
-          dangerouslySetInnerHTML={{__html: ele }}
-        >
-        </div>
-      </PrismCode>
-      {/* <Form 
-        onFinish={onFinish}
-      >
-        <Form.Item>
-
-        </Form.Item>
-      </Form> */}
-
 
       <div className="editor-container" style={{
         height: '500px',
