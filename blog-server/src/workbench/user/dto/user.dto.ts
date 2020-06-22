@@ -1,6 +1,7 @@
 export class UserDto {
 
   username: string;
-  password: string;
-
+  password?: string;
+  salt? : string;
+  
 }

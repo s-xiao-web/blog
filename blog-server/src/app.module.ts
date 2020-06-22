@@ -7,6 +7,7 @@ import { LoggerMiddleware  } from './middleware/logger.middleware'
 import { CategoryModule } from './workbench/category/category.module';
 import { UserModule } from './workbench/user/user.module';
 import { ArticleModule } from './workbench/article/article.module';
+import { AuthModule } from './workbench/logical/auth.module';
 
 @Module({
   imports: [
@@ -28,7 +29,8 @@ import { ArticleModule } from './workbench/article/article.module';
     }),
     CategoryModule,
     UserModule,
-    ArticleModule
+    AuthModule,
+    ArticleModule,
   ],
   controllers: [AppController],
   providers: [AppService],
