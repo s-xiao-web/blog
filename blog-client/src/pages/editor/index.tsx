@@ -72,15 +72,6 @@ const BasicDemo = () => {
   }
 
   function getEditor() {
-
-    // const data = {
-    //   topic: 'vue管理系统从0到1-插件配置',
-    //   auth: 'sunxiao',
-    //   tag: 'react',
-    //   time: '2020-06-36',
-    //   readTime: '1 min read' // 这个是阅读预估的时间
-    // }
-
     postCreateArticle(textVal).then(res => {
       console.log(res);
     })

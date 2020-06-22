@@ -4,14 +4,14 @@ import { get } from 'lodash';
 import { Modal, Button, message } from 'antd';
 import { RocketOutlined, CloseCircleOutlined } from '@ant-design/icons';
 
-import XInput from './xInput'
+import XInput from './xInput';
 
 import style from './index.less';
 
 const BlogLogin = props => {
 
   const { dispatch, visible, onClose } = props;
- 
+
   const [info, setInfo] = useState({username: '', password: ''});
 
   return (
