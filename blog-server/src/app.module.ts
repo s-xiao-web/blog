@@ -8,6 +8,7 @@ import { CategoryModule } from './workbench/category/category.module';
 import { UserModule } from './workbench/user/user.module';
 import { ArticleModule } from './workbench/article/article.module';
 import { AuthModule } from './workbench/logical/auth.module';
+import { BaseModule } from './workbench/base/base.module';
 
 @Module({
   imports: [
@@ -31,6 +32,7 @@ import { AuthModule } from './workbench/logical/auth.module';
     UserModule,
     AuthModule,
     ArticleModule,
+    BaseModule,
   ],
   controllers: [AppController],
   providers: [AppService],
