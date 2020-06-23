@@ -58,7 +58,7 @@ const BlogHeader:React.FC<props> = props => {
     )
   });
 
-  const renderIcon = <span className={icons} onClick={() => onClickBtn()}></span>
+  const renderIcon = <span  onClick={() => onClickBtn()}>临时的登录</span>
 
   return (
     <div className={style['header-container']} ref={currentRef} style={{ currentScroll }}>
