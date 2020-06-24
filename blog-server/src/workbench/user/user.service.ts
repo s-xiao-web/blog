@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Inject } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
 import { Sequelize } from 'sequelize-typescript';
 
@@ -12,22 +12,27 @@ import { Op } from 'sequelize';
 export class UserService {
   @InjectModel(User)
   private readonly userModel: typeof User
-  private readonly sequelize: Sequelize
-  private readonly authService: AuthService
-
+  // private sequelize: typeof Sequelize
+  private authService: typeof AuthService
+// 
   async findOne(userDto: UserDto) {
     const { username, password  } = userDto
-    const authResult = await this.authService.validateUser(username, password)
-    console.log( authResult );
-    return
-    const salt = makeSalt();
-    const hasPwd = encryptPassword(password, salt);
-    const resule = await this.userModel.findOne({
-      where: {
-        [Op.and]: [{ username }, { password:hasPwd }]
-      }
-    })
-    return resule
+
+    const result = await this.userModel.findAll()
+
+    // console.log( this.authService );
+    return result
+    // const authResult = await this.authService.validateUser(username, password)
+    // console.log( authResult );
+    // return
+    // const salt = makeSalt();
+    // const hasPwd = encryptPassword(password, salt);
+    // const resule = await this.userModel.findOne({
+    //   where: {
+    //     [Op.and]: [{ username }, { password:hasPwd }]
+    //   }
+    // })
+    // return resule
   }
 
   async userLogin(userDto: UserDto) {
@@ -43,7 +48,8 @@ export class UserService {
         },
         defaults: {
           ...userDto,
-          password:hasPwd
+          password:hasPwd,
+          salt
         }
       }
     )

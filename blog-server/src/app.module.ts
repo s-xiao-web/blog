@@ -10,6 +10,8 @@ import { ArticleModule } from './workbench/article/article.module';
 import { AuthModule } from './workbench/logical/auth.module';
 import { BaseModule } from './workbench/base/base.module';
 
+import { AuthService } from './workbench/logical/auth.service'
+
 @Module({
   imports: [
     SequelizeModule.forRoot({

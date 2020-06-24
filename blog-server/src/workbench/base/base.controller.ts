@@ -44,7 +44,7 @@ export class BaseController {
   // http://local-admin-base.utools.club/api/base/spu
   @Post('spu')
   sendBaseSpu() {
-    console.log( 'spu' );
+    console.log( '林立的 spu' );
     return {
       "pageCount": 1,
       "total": 15,
@@ -55,7 +55,6 @@ export class BaseController {
           {"spuName":"天然橡胶/STR20/泰国/入库详单号:87436","wmsAccount":"7","spuId":"1"},
           {"spuName":"天然橡胶/联谊BJ3/STR20/泰国/1260KG/入库详单号:58838","wmsAccount":"7","spuId":"1"},
           {"spuName":"聚乙烯/6049/合格品/大庆/25kg/入库详单号:87713","wmsAccount":"7","spuId":"1"},
-          ``
         ]
       },
       "success": true,
@@ -69,27 +68,33 @@ export class BaseController {
   @Post('owner')
   sendBaseOwner() {
     console.log('owner');
+
+    const obj = {
+      "wmsCargoOwnerId":"1",
+      "wmsCargoOwnerName":"常州美厦材料有限公司",
+      "wmsCargoOwnerCode":" 91410100561040221J",
+      "wmsCargoOwnerShortName":"常州",
+      "wmsSuperiorId":"1",
+      "wmsSuperiorName":"青州中储物流有限公司",
+      "wmsAddress":"北京市海淀区东北旺西路中关村软件园二期(西扩)N-1、N-2地块新浪总部科研楼5层503室",
+      "wmsPostcode":"102401",
+      "wmsRank":"1",
+      "wmsLicense":"1",
+      "wmsOwner":"李彦宏",
+      "wmsIdentity":"110111188002021656",
+      "wmsManagementScope":"从事互联网文化活动；经营演出及经纪业务；设计、制作、代理、发布广告；计算机互联网技术服务",
+    }
+
+    const result = JSON.stringify( obj ) 
+    console.log( result );
+    console.log( typeof result );
     return {
       "pageCount": 1,
       "total": 15,
       "code": "RES_00001",
-      "data": `{
-        "result": "{
-          "wmsCargoOwnerId":"1",
-          "wmsCargoOwnerName":"常州美厦材料有限公司",
-          "wmsCargoOwnerCode":" 91410100561040221J",
-          "wmsCargoOwnerShortName":"常州",
-          "wmsSuperiorId":"1",
-          "wmsSuperiorName":"青州中储物流有限公司",
-          "wmsAddress":"北京市海淀区东北旺西路中关村软件园二期(西扩)N-1、N-2地块新浪总部科研楼5层503室",
-          "wmsPostcode":"102401",
-          "wmsRank":"1",
-          "wmsLicense":"1",
-          "wmsOwner":"李彦宏",
-          "wmsIdentity":"110111188002021656",
-          "wmsManagementScope":"从事互联网文化活动；经营演出及经纪业务；设计、制作、代理、发布广告；计算机互联网技术服务",
-        }",
-      }`,
+      "data": {
+        "result":result,
+      },
       "success": true,
       "pageSize": 10,
       "message": "请求成功",

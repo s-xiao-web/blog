@@ -3,11 +3,15 @@ import { Controller, Post, Body, Get } from '@nestjs/common';
 import { UserService } from './user.service';
 import { UserDto } from './dto/user.dto';
 
-@Controller('base')
-// @Controller('user')
+import { AuthService } from '../logical/auth.service'
+
+@Controller('user')
 export class UserController {
 
-  constructor(private readonly userService: UserService) { }
+  constructor(
+    private readonly userService: UserService,
+    private readonly authService: AuthService
+  ) { }
 
   @Post('login')
   userLogin(@Body() params: UserDto) {
@@ -16,7 +20,8 @@ export class UserController {
 
   @Post('findUser')
   userFinde(@Body() params: UserDto) {
-    return this.userService.findOne(params);
+    const { username, password } = params
+    this.authService.validateUser(username, password)
   }
 
 
