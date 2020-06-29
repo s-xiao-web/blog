@@ -7,10 +7,10 @@ import { LoggerMiddleware  } from './middleware/logger.middleware'
 import { CategoryModule } from './workbench/category/category.module';
 import { UserModule } from './workbench/user/user.module';
 import { ArticleModule } from './workbench/article/article.module';
-import { AuthModule } from './workbench/logical/auth.module';
 import { BaseModule } from './workbench/base/base.module';
+import { AuthModule } from './workbench/auth/auth.module';
 
-import { AuthService } from './workbench/logical/auth.service'
+import { UserController } from './workbench/user/user.controller'
 
 @Module({
   imports: [
@@ -32,11 +32,11 @@ import { AuthService } from './workbench/logical/auth.service'
     }),
     CategoryModule,
     UserModule,
-    AuthModule,
     ArticleModule,
     BaseModule,
+    AuthModule,
   ],
-  controllers: [AppController],
+  controllers: [AppController, UserController],
   providers: [AppService],
 })
 export class AppModule implements NestModule{
