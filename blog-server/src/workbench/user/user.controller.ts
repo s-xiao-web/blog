@@ -1,9 +1,11 @@
-import { Controller, Post, Body, Request, UseGuards } from '@nestjs/common';
+import { Controller, Post, Body, HttpException, UseGuards, HttpStatus, Headers } from '@nestjs/common';
 
 import { UserService } from './user.service';
 import { AuthService } from '../auth/auth.service';
-import { UserDto } from './dto/user.dto';
 
+import { AuthGuard } from '@nestjs/passport';
+
+import { UserDto } from './dto/user.dto';
 
 @Controller('user')
 export class UserController {
@@ -23,19 +25,21 @@ export class UserController {
     return this.usersService.register(info);
   }
 
+  @UseGuards(AuthGuard('jwt'))
+  @Post('test')
+  test(@Body() body) {
+    return {...body}
+  }
+
   @Post('login')
-  async login(@Body() params) {
-    const authResult = await this.authService.validateUser(
-      params.username,
-      params.password,
-    );
+  async login(@Body() user: UserDto) {
+    const authResult = await this.authService.validateUser(user);
     switch (authResult.code) {
-      case 1:
+      case 0:
         return this.authService.certificate(authResult.user);
-      case 2:
+      case 1:
         return {
-          code: 1,
-          data: 'throw error'
+          msg: '这是一个很短的中文'
         }
     }
   }

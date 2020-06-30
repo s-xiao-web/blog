@@ -9,7 +9,7 @@ import { User } from '../../models/user.model';
 
 import { makeSalt, encryptPassword } from '../../utils/cryptogram'
 
-
+const { Op } = sequelizes;
 @Injectable()
 export class UserService {
 
@@ -17,36 +17,38 @@ export class UserService {
   private readonly userModel: typeof User
   private readonly sequelize: Sequelize
 
-  constructor() {}
-
   /**
    * 查询是否有该用户
    * @param username 用户名
    */
-  async findOne(username: string): Promise<any | undefined> {
-    const sql = `
-      SELECT
-        username, password, salt
-      FROM
-        user
-      WHERE
-        username = '${username}'
-    `;
-  
+  async findOne(username: string): Promise<any | undefined> {  
     try {
       const result = await this.userModel.findOne({
-        where: {username}
+        where: {username},
+        raw: true
       })
-      return {
-        username:result.getDataValue('username'),
-        password: result.getDataValue('password'),
-        salt: result.getDataValue('salt')
+      
+      if (result) {
+        return {
+          username:result.getDataValue('username'),
+          password: result.getDataValue('password'),
+          salt: result.getDataValue('salt')
+        }
+      } else {
+        return {message: '未查询到'}
       }
+
+      
     } catch (error) {
-      console.error(error);
+      console.error('error', error);
       return void 0;
     }
   }
+
+   /**
+   * 注册
+   * @param username 用户名
+   */
 
   async register(@Body() info) {
     const {password: pass, username} = info

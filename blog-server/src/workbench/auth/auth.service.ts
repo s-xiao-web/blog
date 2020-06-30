@@ -3,6 +3,7 @@ import { UserService } from '../user/user.service';
 import { JwtService } from '@nestjs/jwt';
 import { encryptPassword } from '../../utils/cryptogram';
 
+import { UserDto } from '../user/dto/user.dto'
 @Injectable()
 export class AuthService {
   constructor(
@@ -11,35 +12,13 @@ export class AuthService {
   ) {}
 
   // JWT验证 - Step 2: 校验用户信息
-  async validateUser(username: string, password: string): Promise<any> {
-    console.log('JWT验证 - Step 2: 校验用户信息');
+  async validateUser(userInfo: UserDto): Promise<any> {
+    const { username, password } = userInfo;
     const user = await this.usersService.findOne(username);
-   
-    if (user) {
-      const hashedPassword = user.password;
-      const salt = user.salt;
-      // 通过密码盐，加密传参，再与数据库里的比较，判断是否相等
-      const hashPassword = encryptPassword(password, salt);
-   
-      if (hashedPassword === hashPassword) {
-        // 密码正确
-        return {
-          code: 1,
-          user,
-        };
-      } else {
-        // 密码错误
-        return {
-          code: 2,
-          user: null,
-        };
-      }
-    }
-    // 查无此人
-    return {
-      code: 3,
-      user: null,
-    };
+    const hashedPassword = user.password;
+    const salt = user.salt;
+    const hashPassword = encryptPassword(password, salt);      
+    return hashedPassword === hashPassword ? {code: 0, user} : {code: 1, user: null} 
   }
 
   // JWT验证 - Step 3: 处理 jwt 签证
@@ -51,13 +30,7 @@ export class AuthService {
     console.log('JWT验证 - Step 3: 处理 jwt 签证');
     try {
       const token = this.jwtService.sign(payload);
-      return {
-        code: 200,
-        data: {
-          token,
-        },
-        msg: `登录成功`,
-      };
+      return { token }
     } catch (error) {
       return {
         code: 600,
