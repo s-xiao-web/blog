@@ -15,10 +15,19 @@ export class AuthService {
   async validateUser(userInfo: UserDto): Promise<any> {
     const { username, password } = userInfo;
     const user = await this.usersService.findOne(username);
-    const hashedPassword = user.password;
-    const salt = user.salt;
-    const hashPassword = encryptPassword(password, salt);      
-    return hashedPassword === hashPassword ? {code: 0, user} : {code: 1, user: null} 
+    if (user) {
+      const hashedPassword = user.password;
+      const salt = user.salt;
+      const hashPassword = encryptPassword(password, salt);      
+      return hashedPassword === hashPassword ? (
+        {code: 0, user, message: 'success'}
+      ) : (
+        {code: 1, user: null, message: '密码不正确'}
+      );
+    } else {
+      const user =  this.usersService.register(userInfo);
+      return {code: 0, user, message: 'success'}
+    }
   }
 
   // JWT验证 - Step 3: 处理 jwt 签证

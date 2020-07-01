@@ -22,23 +22,13 @@ export class UserService {
    * @param username 用户名
    */
   async findOne(username: string): Promise<any | undefined> {  
+    console.log('看看这里执行了么');
     try {
       const result = await this.userModel.findOne({
         where: {username},
         raw: true
       })
-      
-      if (result) {
-        return {
-          username:result.getDataValue('username'),
-          password: result.getDataValue('password'),
-          salt: result.getDataValue('salt')
-        }
-      } else {
-        return {message: '未查询到'}
-      }
-
-      
+      return result
     } catch (error) {
       console.error('error', error);
       return void 0;

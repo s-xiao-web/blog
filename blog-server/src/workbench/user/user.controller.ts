@@ -38,9 +38,7 @@ export class UserController {
       case 0:
         return this.authService.certificate(authResult.user);
       case 1:
-        return {
-          msg: '这是一个很短的中文'
-        }
+        return {code: authResult.code, msg: '密码输入有误'}
     }
   }
 
