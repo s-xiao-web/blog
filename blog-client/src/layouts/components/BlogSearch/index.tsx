@@ -33,7 +33,9 @@ const BlogSearch: React.FC<Props> = props => {
     isSearch ? ele.focus() : ele.blur();
   }, [isSearch])
 
-  useEffect(() => onEsc())
+  useEffect(() => {
+    onEsc()
+  }, [onEsc])
 
   const renderOptions = map(data, (item) => {
     const {id, label} = item

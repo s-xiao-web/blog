@@ -67,8 +67,13 @@ const BlogLogin = props => {
       type: 'system/postUserLogin',
       payload: info,
       callback: res => {
-        onClose(false);
-        message.success('This is a success message');
+        const { data: {code, msg} } = res
+        if(code) {
+          message.error(res.msg);
+        } else {
+          onClose(false); 
+          message.success('Welcome to you');
+        }
       }
     })
   }

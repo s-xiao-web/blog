@@ -1,10 +1,12 @@
-import React, { useMemo, useRef, useEffect } from 'react';
+import React, { useMemo, useRef } from 'react';
 import { connect } from 'dva';
 import { map, get } from 'lodash';
 import classnames from 'classnames';
 import router from 'umi/router';
-
+import { Avatar, Dropdown, Menu, Icon } from 'antd'
+import { UserOutlined } from '@ant-design/icons';
 import style from './index.less';
+
 
 interface option {
   type: string
@@ -27,7 +29,8 @@ const BlogHeader:React.FC<props> = props => {
     onClose,
     currentPath,
     changeVisible,
-    onClickBtn
+    onClickBtn,
+    token
   } = props;
 
   const currentRef = useRef();
@@ -43,7 +46,7 @@ const BlogHeader:React.FC<props> = props => {
     'icon-baitian': !isLogin,
     'icon-dark': isLogin,
   })
-
+  
   const renderMenuItem = map(menu, ({value, path}) => {
     return (
       <li 
@@ -58,7 +61,26 @@ const BlogHeader:React.FC<props> = props => {
     )
   });
 
-  const renderIcon = <span  onClick={() => onClickBtn()}>临时的登录</span>
+  const $userMenu = (
+    <Menu>
+      <Menu.Item>
+        <span>个人中心</span>
+      </Menu.Item>
+      <Menu.Item>
+        <span>退出登录</span>
+      </Menu.Item>
+    </Menu>
+  )
+  
+  const userDropDown = (
+    <Dropdown overlay={$userMenu} placement="bottomCenter">
+      <a className="ant-dropdown-link" onClick={e => e.preventDefault()}>
+        <Avatar size={34} icon={<UserOutlined />} style={{ backgroundColor: '#f56a00' }}/>
+      </a>
+    </Dropdown>
+  )
+
+  const renderIcon = token? (userDropDown):(<span className={style['login-btn']} onClick={() => onClickBtn()}>Login</span>)
 
   return (
     <div className={style['header-container']} ref={currentRef} style={{ currentScroll }}>
@@ -71,9 +93,9 @@ const BlogHeader:React.FC<props> = props => {
           { renderMenuItem }
         </ul>
         <div className={style['search-btn']} onClick={() => onToggle()}>
-          <span>图</span>
+          <Icon type="search" />
         </div>
-        { renderIcon }
+        {renderIcon}
       </div>
     </div>
   )
@@ -95,4 +117,7 @@ const BlogHeader:React.FC<props> = props => {
   }
 }
 
-export default connect(state => ({isLogin: get(state, 'system.isLogin')}))(BlogHeader);
+export default connect(state => ({
+  isLogin: get(state, 'system.isLogin'),
+  token: get(state, 'system.token')
+}))(BlogHeader);

@@ -1,7 +1,11 @@
 import { get } from 'lodash';
 
+import LocalUtil from '../utils/localstorage'
+
 import { getMenuList } from '../api/category';
 import { postUserLogin } from '../api/user';
+
+
 
 export default {
 
@@ -11,7 +15,8 @@ export default {
     theme: true,
     isSearch: false,
     isLogin: false,
-    menuList: []
+    menuList: [],
+    token: LocalUtil.getLocal('token') || ''
   },
 
   reducers: {
@@ -36,6 +41,12 @@ export default {
 
     *postUserLogin({ payload, callback }, { call, put }) {
       const result = yield call(postUserLogin, payload);
+      const { code } = result.data;
+      if (!code) {
+        const token = result.data.token;
+        LocalUtil.setLocal('token', token);
+        yield put({type: 'save', payload: { token }});
+      }
       callback(result)
     }
   }

@@ -73,6 +73,9 @@
 .header-container .header-right-wrap .search-btn:hover {
   border-color: #ffefb9;
 }
+.header-container .header-right-wrap .login-btn {
+  cursor: pointer;
+}
 .header-container .nav-active {
   color: #3eaf7c;
 }
