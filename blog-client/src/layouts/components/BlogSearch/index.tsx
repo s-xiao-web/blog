@@ -2,11 +2,14 @@ import React, { useEffect, useRef, useState } from 'react';
 import classnames from 'classnames';
 import { map } from 'lodash';
 
+import { useKeyPress } from '@/hooks/useKeyPress'
+
 import SearchList from './search-list';
 
 const { Option } = SearchList;
 
 require('./index.less')
+
 
 interface Props {
   onClose: () => void,
@@ -19,7 +22,6 @@ interface Props {
 const BlogSearch: React.FC<Props> = props => {
 
   const { onClose, isSearch, esc, onChange, data } = props;
-
   const inp = useRef();
   const [value, setValue]= useState('我是文本框 内容');
 
@@ -28,14 +30,14 @@ const BlogSearch: React.FC<Props> = props => {
     'search--open': isSearch
   })
 
+  useKeyPress({key: 'esc', rely: isSearch, func: () => isSearch && onClose()})
+
   useEffect(() => {
     const ele = inp.current;
     isSearch ? ele.focus() : ele.blur();
   }, [isSearch])
 
-  useEffect(() => {
-    onEsc()
-  }, [onEsc])
+  console.log( 'isSearch', isSearch );
 
   const renderOptions = map(data, (item) => {
     const {id, label} = item
@@ -76,13 +78,6 @@ const BlogSearch: React.FC<Props> = props => {
     </div>
   )
   
-  function onEsc() {
-    if(!esc) return;
-    document.addEventListener('keydown', ({keyCode}) => {
-      if ( keyCode === 27 ) onClose();
-    })
-  }
-
   function changeSelect({label}) {
     setValue(label);
     handleClose();

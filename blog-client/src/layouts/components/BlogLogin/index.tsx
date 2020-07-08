@@ -1,7 +1,7 @@
-import React, { useState, useRef } from 'react';
+import React, { useState } from 'react';
 import { connect } from 'dva';
 import { get } from 'lodash';
-import { Modal, Button, message } from 'antd';
+import { Modal, Button, message, Tooltip } from 'antd';
 import { RocketOutlined, CloseCircleOutlined } from '@ant-design/icons';
 
 import XInput from './xInput';
@@ -33,11 +33,17 @@ const BlogLogin = props => {
         </div>
         <ul>
           <li>
-            <XInput
-              label="账号："
-              value={info.username}
-              placeholder="这里填写登录账号"
-              onChange={val => changeInp('username', val)}/>
+            <Tooltip 
+              title="prompt text"
+              visible
+              getPopupContainer={() => }
+              >
+              <XInput
+                label="账号："
+                value={info.username}
+                placeholder="这里填写登录账号"
+                onChange={val => changeInp('username', val)}/>
+            </Tooltip>
           </li>
           <li>
             <XInput 

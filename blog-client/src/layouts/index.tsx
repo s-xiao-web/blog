@@ -75,8 +75,8 @@ const BasicLayout: React.FC<Props> = props=> {
       <BlogSearch
         esc
         data={searchData}
-        onChange={onInpChange}
         isSearch={isSearch}
+        onChange={onInpChange}
         onClose={changeClose}
       />
       <div className={layout}>
