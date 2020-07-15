@@ -80,7 +80,7 @@ const BlogHeader:React.FC<props> = props => {
     </Dropdown>
   )
 
-  const renderIcon = token? (userDropDown):(<span className={style['login-btn']} onClick={() => onClickBtn()}>Login</span>)
+  const renderIcon = token ? (userDropDown):(<span className={style['login-btn']} onClick={() => onClickBtn()}>Login</span>)
 
   return (
     <div className={style['header-container']} ref={currentRef} style={{ currentScroll }}>

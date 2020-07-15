@@ -1,21 +1,23 @@
-import React, { useState } from 'react';
-import { connect } from 'dva';
-import { get } from 'lodash';
-import { Modal, Button, message } from 'antd';
-import { RocketOutlined, CloseCircleOutlined } from '@ant-design/icons';
-import classnames from 'classnames'
-import XInput from './xInput';
+import React from 'react';
 
+import { connect, Dispatch } from 'dva';
+import { Modal, message } from 'antd';
 
-import style from './index.less';
+import LoginForm from './LoginFrom'
+import LoginSubmit from './LoginSubmit'
+import LoginLayout from './LoginLayout'
 
-const BlogLogin = props => {
+const { UserName, PassWord } = LoginForm;
+
+interface LoginProps {
+  dispatch: Dispatch,
+  visible: boolean,
+  onClose: ( e:boolean ) => void
+}
+
+const BlogLogin:React.FC<LoginProps> = (props: LoginProps) => {
 
   const { dispatch, visible, onClose } = props;
-
-  const [info, setInfo] = useState({username: '', password: ''});
-
-  const [animate, setAnimate] = useState(false)
 
   return (
     <Modal
@@ -24,69 +26,33 @@ const BlogLogin = props => {
       keyboard
       closable={false}
       bodyStyle={{padding: '10px'}}
-      afterClose={() => setInfo({username: '', password: ''})}
     >
-      <div className={style['login-wrapper']}>
-        <div className={style['header-wrapper']}>
-          <h3 className={style['header-title']}>
-            <RocketOutlined className={style['icon-line']}/>
-            <span>Welcome You</span>
-          </h3>
-          <CloseCircleOutlined className={style['header-close-icon']} onClick={() => onClose(false)}/>
-        </div>
-        <ul>
-          <li>
-            <XInput
-              animate={animate}
-              onAnimateEnd={onAnimateEnd}
-              label="账号："
-              value={info.username}
-              placeholder="这里填写登录账号"
-              onChange={val => changeInp('username', val)} />
-          </li>
-          <li>
-            <XInput 
-              animate={animate}
-              onAnimateEnd={onAnimateEnd}
-              label="密码"
-              value={info.password}
-              types="password"
-              placeholder="这里填写密码" 
-              onChange={val => changeInp('password', val)}/>
-          </li>
-        </ul>
-        <div className={style['btn-wrapper']}>
-          <Button block onClick={login}>登录</Button>
-        </div>
-        <div className={style['tips-wrapper']}>
-          <span>温馨提示：登录即是注册</span>
-        </div>
-      </div>
+      <LoginLayout>
+        <LoginForm onFinish={onFinish} onFinishFailed={onFinishFailed}>
+
+          <UserName
+            label="账号："
+            name='username'
+            rules={[{ required: true }]}
+          ></UserName>
+
+          <PassWord
+            label="密码："
+            name='password'
+            rules={[{ required: true }]}
+          ></PassWord>
+
+          <LoginSubmit />
+
+        </LoginForm>
+      </LoginLayout>
     </Modal>
   )
-
-  function changeInp(key, val) {
-    setInfo({...info, [key]: val})
-  }
-
-  function hasEmpty(targetObj) {
-    const isObj = targetObj.constructor === Object
-    return isObj && Object.keys(targetObj).some(key => !targetObj[key])
-  }
-
-  function onAnimateEnd() {
-    setAnimate(false);
-  }
-
-  function login() {
-    if ( hasEmpty(info) ) {
-      message.warning('喂喂，是不是少写了点东西？')
-      setAnimate(true)
-    }
-    return
+  
+  function onFinish(val) {
     dispatch({
       type: 'system/postUserLogin',
-      payload: info,
+      payload: val,
       callback: res => {
         const { data: {code, msg} } = res
         if(code) {
@@ -98,8 +64,11 @@ const BlogLogin = props => {
       }
     })
   }
+
+  function onFinishFailed() {
+    message.warning('喂喂，是不是少写了点东西？')
+  }
+
 }
 
-export default connect(({ system }) => {
-  return {}
-})(BlogLogin);
+export default connect(({ system }) => {})(BlogLogin);
