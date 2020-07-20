@@ -1,10 +1,23 @@
 import { map } from 'lodash';
+const path = require('path');
+const fileLoda = ({
+  path: filePath = './',
+  excludePath = ['./index.tsx'],
+  files
+}) => {
 
-const fileLodaer = () => {
+  const configRouter = {};
 
-  const files = require.context('./', true, /\.tsx$/);
-  console.log(files.keys());
+  map(files.keys(), key => {
+    if ( excludePath.includes(key) ) return;
+    const path = files(key).default;
+    const fileKey = path.name || key.split('/')[1];
+    configRouter[fileKey] = path;
+  })
+  
+  return configRouter
 
-};
+}
 
-export default fileLodaer
+
+export default fileLoda;

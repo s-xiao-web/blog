@@ -73,8 +73,17 @@
       background: rgba(255, 255, 255, .1);
       transition: all 2s cubic-bezier(.25,.8,.25,1);
       box-sizing: content-box;
+
+      .search-icon {
+        color: #666;
+        transition: all 2s cubic-bezier(.25,.8,.25,1);
+      }
+
       &:hover {
         border-color: @check-color;
+        .search-icon {
+          color: #fff;
+        }
       }
     }
 

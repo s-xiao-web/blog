@@ -1,74 +1,96 @@
 import React, { useEffect, useState } from 'react';
-import BraftEditor from 'braft-editor';
-import CodeHighlighter from 'braft-extensions/dist/code-highlighter';
 
-import { Button } from 'antd';
-
-import 'braft-editor/dist/index.css'
-import 'braft-extensions/dist/code-highlighter.css'
-
-import style from './index.less'
+import EditorForm from './components';
 
 import { postCreateArticle, getArticleList } from '../../api/article'
+import Highlight from 'react-highlight';
 
-BraftEditor.use(CodeHighlighter())
+import 'highlight.js/styles/atelier-cave-dark.css';
+import style from './index.less'
+
+const { ArticleForm, ArticleTitle, ArticleLabel, ArticleText, ArticleButton } = EditorForm;
 
 const BasicDemo = () => {
+  
 
-  const editorState = BraftEditor.createEditorState('<p>Hello <b>World!</b></p>')
-  const [editor, setEditor] = useState(editorState)
-  const [textVal, setTextVal] = useState('')
-  const [ele, setEle] = useState('')
+  const [ eleHtml, setEleHtml ] = useState('');
 
-  const extendControls = [
-    {
-      key: 'custom-button',
-      type: 'button',
-      text: '预览',
-      onClick: preview
-    }
-  ]
-
-  useEffect(() => {
-
-    getArticleList({id: 1}).then(res => {
-      setEle(res.comment)
-    })
-
-  }, [])
+  // useEffect(() => {
+  //   getArticleList({id: 1}).then(res => {
+  //     setEle(res.comment)
+  //   })
+  // }, [])
 
   return (
     <div className={style['editor-container']}>
+      <ArticleForm 
+        onFinish={onSubmit}
+        onFinishFailed={finishFailed}
+      >
+        <ArticleTitle
+          label="文章标题"
+          name="titlle"
+          rules={[{ required: true, message: 'Please input your username!' }]}
+        />
 
-      <div
+        <ArticleLabel
+          label="所属标签"
+          name="label"
+          rules={[{ required: true, message: 'Please input your username!' }]}
+        />
+
+        <ArticleText 
+          label="文章正文"
+          name="value"
+          rules={[{ required: true, message: 'Please input your username!' }]}
+        />
+
+        <ArticleButton>sublimt</ArticleButton>
+
+      </ArticleForm>
+
+      {/*
+        <div
           className='editor-wrapper'
           dangerouslySetInnerHTML={{__html: ele }}
         >
         </div>
 
-      <div className="editor-container" style={{
-        height: '500px',
-        overflow: 'hidden'
-      }}>
-        <BraftEditor
-          value={editor}
-          extendControls={extendControls}
-          onChange={handleChange}
-        />
-      </div>
-      <h5>输出内容</h5>
-      <div className="output-content">{textVal}</div>
-      <Button onClick={getEditor} style={{marginTop: '30px'}}>获取</Button>
-      <div
-      className='editor-wrapper'
-      dangerouslySetInnerHTML={{__html: textVal }} />
+        <div className="editor-container" style={{
+          height: '500px',
+          overflow: 'hidden'
+        }}>
+          <BraftEditor
+            value={editor}
+            extendControls={extendControls}
+            onChange={handleChange}
+          />
+        </div>
+        <h5>输出内容</h5>
+        <div className="output-content">{textVal}</div>
+        <Button onClick={getEditor} style={{marginTop: '30px'}}>获取</Button>
+        <div
+        className='editor-wrapper'
+        dangerouslySetInnerHTML={{__html: textVal }} /> */}
+
+      <Highlight innerHTML={true} className={'echo-container'}>{eleHtml}</Highlight>
     </div>
   )
 
+  function onSubmit(value) {
+    console.log('这里是准备要提交c的数据', value);
+    const sendData = value.value
+    console.log( sendData.toHTML() );
+    setEleHtml( sendData.toHTML() )
+  }
+
+  function finishFailed() {
+
+  }
+
   function handleChange(editorState) {
     setEditor(editorState);
-    setTextVal( editorState.toHTML() )
-
+    setTextVal( editorState.toHTML() );
   }
 
   function getEditor() {

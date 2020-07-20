@@ -1,13 +1,13 @@
 import React from 'react';
-
 import { connect, Dispatch } from 'dva';
 import { Modal, message } from 'antd';
 
 import LoginForm from './LoginFrom'
-import LoginSubmit from './LoginSubmit'
 import LoginLayout from './LoginLayout'
 
-const { UserName, PassWord } = LoginForm;
+import { LoginParamsType } from '@/api/user'
+
+const { UserName, PassWord, LoginSubmit } = LoginForm;
 
 interface LoginProps {
   dispatch: Dispatch,
@@ -27,8 +27,8 @@ const BlogLogin:React.FC<LoginProps> = (props: LoginProps) => {
       closable={false}
       bodyStyle={{padding: '10px'}}
     >
-      <LoginLayout>
-        <LoginForm onFinish={onFinish} onFinishFailed={onFinishFailed}>
+      <LoginLayout onClose={onClose}>
+        <LoginForm onSubmit={onSubmit} onFinishFailed={onFinishFailed}>
 
           <UserName
             label="账号："
@@ -42,14 +42,14 @@ const BlogLogin:React.FC<LoginProps> = (props: LoginProps) => {
             rules={[{ required: true }]}
           ></PassWord>
 
-          <LoginSubmit />
+          <LoginSubmit>Login</LoginSubmit>
 
         </LoginForm>
       </LoginLayout>
     </Modal>
   )
-  
-  function onFinish(val) {
+
+  function onSubmit(val: LoginParamsType) {
     dispatch({
       type: 'system/postUserLogin',
       payload: val,
@@ -71,4 +71,4 @@ const BlogLogin:React.FC<LoginProps> = (props: LoginProps) => {
 
 }
 
-export default connect(({ system }) => {})(BlogLogin);
+export default connect(() => ({}))(BlogLogin)

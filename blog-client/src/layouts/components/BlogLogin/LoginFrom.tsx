@@ -1,20 +1,33 @@
 import React, { useState } from 'react';
-import { Form } from 'antd'
+import { Form } from 'antd';
 
-import LoginContext from './LoginContext.js'
+import LoginContext from './LoginContext';
+import LoginSubmit from './LoginSubmit';
+import LoginItem, { LoginItemProps } from './LoginItem';
 
-import LoginItem from './LoginItem'
+import { LoginParamsType } from '@/api/user';
 
-const LoginForm = props => {
+import { ValidateErrorEntity } from 'rc-field-form/lib/interface'
 
-  const { children, onFinish, onFinishFailed } = props;
+export interface LoginItemFace {
+  onSubmit:(props: LoginParamsType) => void;
+  onFinishFailed:() => void;
+}
 
-  const [verifyErrs, setverifyErrs] = useState([]);
+interface LoginType extends React.FC<LoginItemFace> {
+  UserName: React.FunctionComponent<LoginItemProps>;
+  PassWord: React.FunctionComponent<LoginItemProps>;
+  LoginSubmit: React.FunctionComponent
+}
 
+const LoginForm: LoginType = props => {
+
+  const { children, onSubmit, onFinishFailed } = props;
+  const [verifyErrs, setverifyErrs] = useState();
   const validateMessages = { required: "" };
   
   return (
-    <LoginContext.Provider 
+    <LoginContext.Provider
       value={{
         verifyErrs,
         changeVerify() {
@@ -23,22 +36,22 @@ const LoginForm = props => {
       }}
     >
       <Form 
-        onFinish={onFinish}
+        onFinish={values => onSubmit && onSubmit(values as LoginParamsType)}
         onFinishFailed={finishFailed}
         validateMessages={validateMessages}
       >{ children }</Form>
     </LoginContext.Provider>
   )
   
-  function finishFailed({ values, errorFields }) {
-    setverifyErrs(errorFields)
-    onFinishFailed({values, errorFields})
+  function finishFailed({ errorFields }: ValidateErrorEntity) {
+    setverifyErrs(errorFields);
+    onFinishFailed();
   }
 
 }
 
-
 LoginForm.UserName = LoginItem.UserName;
 LoginForm.PassWord = LoginItem.PassWord;
+LoginForm.LoginSubmit = LoginSubmit;
 
 export default LoginForm

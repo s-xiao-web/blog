@@ -8,3 +8,9 @@
   background: #fff;
   box-shadow: 0 0 15px rgba(0, 0, 0, 0.25);
 }
+.editor-container .editor-wrapper {
+  padding: 20px;
+}
+.editor-container .echo-container p {
+  line-height: 30px;
+}

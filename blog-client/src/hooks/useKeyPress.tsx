@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react';
-
+import { useEffect } from 'react';
+import { get } from 'lodash';
 /*
 addEventListener
 语法： targetEle.addEventListener(type, listener, options)
@@ -11,9 +11,10 @@ options   ： 可选。布尔值，指定事件是否在捕获或冒泡阶段执
 */
 
 interface PressFace {
-  key: string
+  key?: string
   func: Function
-  rely: any
+  eventName: string
+  rely?: any
   source?: Document
 };
 
@@ -26,20 +27,25 @@ type useKeyPress = (arg:PressFace) => void;
 const useKeyPress: useKeyPress = ({
   key,
   func,
+  eventName,
   rely = false,
   source = document
 }) => {
 
   const downHandle = (ev:globalThis.KeyboardEvent) => {
-    const { key: sourceKey } = ev;
-    const eventKey = sourceKey === 'Escape'? 'esc' : sourceKey;
-    (eventKey === key) && func(ev);
+    const sourceKey = get(ev, key)
+    if ( sourceKey ) {
+      const eventKey = sourceKey === 'Escape'? 'esc' : sourceKey;
+      (eventKey === key) && func(ev);
+    } else {
+      func(ev);
+    }
   }
 
   useEffect(() => {
-    source.addEventListener('keydown', downHandle);
-    return () => source.removeEventListener('keydown', downHandle);
-  }, [rely]);
+    source.addEventListener(eventName, downHandle);
+    return () => source.removeEventListener(eventName, downHandle);
+  }, [downHandle, eventName, rely, source]);
 
 }
 

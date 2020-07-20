@@ -6,7 +6,7 @@ import router from 'umi/router';
 import { Avatar, Dropdown, Menu, Icon } from 'antd'
 import { UserOutlined } from '@ant-design/icons';
 import style from './index.less';
-
+import { SearchOutlined } from '@ant-design/icons';
 
 interface option {
   type: string
@@ -93,7 +93,7 @@ const BlogHeader:React.FC<props> = props => {
           { renderMenuItem }
         </ul>
         <div className={style['search-btn']} onClick={() => onToggle()}>
-          <Icon type="search" />
+          <SearchOutlined className={style['search-icon']}/>
         </div>
         {renderIcon}
       </div>

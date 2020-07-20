@@ -70,8 +70,15 @@
   transition: all 2s cubic-bezier(0.25, 0.8, 0.25, 1);
   box-sizing: content-box;
 }
+.header-container .header-right-wrap .search-btn .search-icon {
+  color: #666;
+  transition: all 2s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
 .header-container .header-right-wrap .search-btn:hover {
   border-color: #ffefb9;
+}
+.header-container .header-right-wrap .search-btn:hover .search-icon {
+  color: #fff;
 }
 .header-container .header-right-wrap .login-btn {
   cursor: pointer;

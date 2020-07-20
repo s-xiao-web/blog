@@ -1,12 +1,15 @@
 import React from 'react';
-
 import { RocketOutlined, CloseCircleOutlined } from '@ant-design/icons';
 
 import style from './LoginLayout.less';
 
-const LoginLayout = props => {
+interface LoginLayoutTypes {
+  onClose: (props:boolean) => void;
+}
 
-  const { dispatch, visible, onClose } = props;
+const LoginLayout:React.FC<LoginLayoutTypes> = props => {
+
+  const { onClose } = props;
 
   return (
     <div className={style['login-wrapper']}>
@@ -15,7 +18,7 @@ const LoginLayout = props => {
           <RocketOutlined className={style['icon-line']}/>
           <span>Welcome You</span>
         </h3>
-        <CloseCircleOutlined className={style['header-close-icon']} onClick={() => onClose(false)}/>
+        <CloseCircleOutlined className={style['header-close-icon']} onClick={() => onClose(false)} />
       </div>
 
       { props.children }
@@ -28,4 +31,4 @@ const LoginLayout = props => {
   
 }
 
-export default LoginLayout
+export default LoginLayout;

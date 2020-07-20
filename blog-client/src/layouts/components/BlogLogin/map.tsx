@@ -1,8 +1,13 @@
 import React from 'react';
 
-export default {
+interface DefaultFace {
+  [index: string]:object
+}
+
+
+const defaultData: DefaultFace = {
   UserName: {
-    props: {
+    params: {
       type: 'text',
       placeholder: 'username',
     },
@@ -14,7 +19,7 @@ export default {
     ],
   },
   PassWord: {
-    props: {
+    params: {
       type: 'password',
       placeholder: 'password',
     },
@@ -26,3 +31,5 @@ export default {
     ],
   },
 };
+
+export default defaultData;

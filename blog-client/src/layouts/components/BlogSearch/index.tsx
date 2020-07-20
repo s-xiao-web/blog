@@ -30,7 +30,7 @@ const BlogSearch: React.FC<Props> = props => {
     'search--open': isSearch
   })
 
-  useKeyPress({key: 'esc', rely: isSearch, func: () => isSearch && onClose()})
+  useKeyPress({key: 'esc', rely: isSearch, eventName: 'keydown',func: () => isSearch && onClose()})
 
   useEffect(() => {
     const ele = inp.current;

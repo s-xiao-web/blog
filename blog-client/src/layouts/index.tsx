@@ -3,8 +3,9 @@ import { connect } from 'dva'
 import classnames from 'classnames';
 import { get, eq } from 'lodash';
 
-import BlogComp from './components/index';
+import { useKeyPress } from '@/hooks/useKeyPress'
 
+import BlogComp from './components/index';
 import './index.less';
 
 const { BlogSearch, BlogProgress, BlogFooter, BlogHeader, BlogBaseLayout, BlogLogin } = BlogComp;
@@ -48,12 +49,11 @@ const BasicLayout: React.FC<Props> = props=> {
     'layout-container-more': isSearch
   })
 
-  useEffect(() => {
-    window.addEventListener('scroll', () => {
-      setTop(document.documentElement.scrollTop);
-    })
-    return () => window.removeEventListener('scroll', () => null);
-  }, [])
+
+  useKeyPress({
+    eventName: 'scroll',
+    func: () => setTop(document.documentElement.scrollTop)
+  })
 
   useEffect(() => {
     const bodyStyle = document.body.style
@@ -68,7 +68,7 @@ const BasicLayout: React.FC<Props> = props=> {
         console.log( '回调函数' );
       }
     })
-  }, [])
+  }, [dispatch])
 
   return (
     <div className="layout-wrap">
@@ -88,7 +88,7 @@ const BasicLayout: React.FC<Props> = props=> {
           currentPath={pathname}
         ></BlogHeader>
           { renderChildLayout }
-        <BlogLogin visible={visibleDialog} onClose={val => setVisibleDialog(val)} />
+        <BlogLogin visible={visibleDialog} onClose={(val:boolean) => setVisibleDialog(val)} />
         <BlogFooter />
       </div>
       <BlogProgress />
@@ -110,10 +110,6 @@ const BasicLayout: React.FC<Props> = props=> {
 
   function changeVisible() {
     setVisibleDialog(true);
-  }
-
-  function closeDialog() {
-    setVisibleDialog(false);
   }
   
 };
