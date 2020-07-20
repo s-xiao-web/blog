@@ -17,13 +17,37 @@ export class CategoryService {
   ) {}
 
   async createMenu(CreatMenuDto: CreateMenuDto) {
+    console.log( CreatMenuDto );
+    const menu = [
+      {
+        value: '编程',
+        path: '/'
+      },
+      {
+        value: '项目',
+        path: '/article'
+      },
+      {
+        value: '标签',
+        path: '/tag'
+      },
+      {
+        value: '归档',
+        path: '/record'
+      },
+      {
+        value: 'GitHub',
+        path: 'GitHub'
+      },
+    ]
     const { value, path } = CreatMenuDto;
-    const sql = `
-      INSERT INTO category (value,path) VALUES ('${value}','${path}')
-    `
-    return await this.sequelize.query(sql, {
-      type: sequelizes.QueryTypes.INSERT,
-    });
+    return await this.categoryModel.bulkCreate(menu)
+    // const sql = `
+    //   INSERT INTO category (value,path) VALUES ('${value}','${path}')
+    // `
+    // return await this.sequelize.query(sql, {
+    //   type: sequelizes.QueryTypes.INSERT,
+    // });
   }
 
   async getMenus(): Promise<Category[]> {
