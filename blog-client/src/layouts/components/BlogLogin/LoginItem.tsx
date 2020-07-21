@@ -78,12 +78,12 @@ const LoginItem: React.FC<LoginItemProps>= props => {
   const otherProps = restProps || {};
 
   const isAnimate = !!(!isEmpty(verifyErrs) && verifyErrs.find(val => val.name.includes(name)));
-  
+
   return (
     <Form.Item name={name} {...options}>
       <div onAnimationEnd={changeVerify} className={classnames(styles.animate__animated, style['inp-container'], { [styles.animate__shakeX]: isAnimate })}>
         <span className={style['inp-tips']}>{label}</span>
-        <input {...restProps.props} className={style['inp-ele']}/>
+        <input {...restProps.params} className={style['inp-ele']} />
       </div>
     </Form.Item>
   )

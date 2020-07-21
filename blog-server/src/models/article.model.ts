@@ -6,8 +6,6 @@ import {
   AutoIncrement,
 } from 'sequelize-typescript';
 
-import * as sequelizes from 'sequelize'
-
 @Table
 export class Article extends Model<Article> {
 
@@ -17,6 +15,17 @@ export class Article extends Model<Article> {
   id: number
 
   @Column
-  comment: string
+  title: string
 
+  @Column
+  comment: string
+  
+  @Column
+  user_id: number
+
+  @Column
+  label_id: number
+
+  @Column
+  like_id: number
 }

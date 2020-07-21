@@ -8,6 +8,7 @@
     "precommit": "lint-staged"
   },
   "dependencies": {
+    "@ant-design/pro-layout": "^6.2.5",
     "animate.css": "^4.1.0",
     "antd": "^4.4.2",
     "braft-editor": "^2.3.9",

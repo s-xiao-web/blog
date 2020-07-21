@@ -17,7 +17,6 @@ export class CategoryService {
   ) {}
 
   async createMenu(CreatMenuDto: CreateMenuDto) {
-    console.log( CreatMenuDto );
     const menu = [
       {
         value: '编程',
