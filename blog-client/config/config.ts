@@ -1,8 +1,12 @@
 import { IConfig } from 'umi-types';
+import { routes } from './routes';
 
 // ref: https://umijs.org/config/
 const config: IConfig =  {
   treeShaking: true,
+
+  routes,
+
   plugins: [
     // ref: https://umijs.org/plugin/umi-plugin-react.html
     ['umi-plugin-react', {
@@ -11,7 +15,6 @@ const config: IConfig =  {
       dynamicImport: { webpackChunkName: true },
       title: 'blog-client',
       dll: false,
-      
       routes: {
         exclude: [
           /models\//,
