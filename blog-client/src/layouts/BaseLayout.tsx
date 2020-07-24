@@ -22,8 +22,8 @@ const data = [
 ]
 
 interface Props {
-  location: PathName;
-  menuList: Array<object>
+  location?: PathName;
+  menuList?: Array<object>
 }
 interface PathName {
   pathname:  string,
@@ -31,11 +31,15 @@ interface PathName {
 
 const BasicLayout: React.FC<Props> = props=> {
 
+  console.log(props);
+
   const {
     location: { pathname },
     menuList,
     dispatch
   } = props;
+
+ 
 
   const [ top, setTop ] = useState(0);
   const [isSearch, setIsSearch] = useState(false);

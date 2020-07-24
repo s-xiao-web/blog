@@ -1,13 +1,19 @@
 import React from 'react';
+import { connect } from 'dva';
+import { get } from 'lodash';
 
-const SecurityLayout = () => {
+import BaseLayout from './BaseLayout';
+import AdminLayout from './AdminLayout';
 
-  return (
-    <div>
-      123
-    </div>
-  )
+const SecurityLayout = props => {
+
+  const { location } = props;
+
+  return location.pathname === '/admin' ? 
+    (<AdminLayout>{ props.children }</AdminLayout>)
+    :
+    (<BaseLayout {...props}>{ props.children }</BaseLayout>)
 
 }
 
-export default SecurityLayout;
+export default connect(state => ({isLogin: get(state, 'system.token')}))(SecurityLayout);

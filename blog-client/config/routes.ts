@@ -1,12 +1,29 @@
 export const routes =  [
   {
+    path: '/admin',
+    component: '../layouts/AdminLayout',
+    routes: [
+      {
+        path: '/admin',
+        component: './editor'
+      },
+      {
+        path: '/admin/setting',
+        component: './admin/setting/navigation'
+      }
+    ]
+  },
+  {
     path: '/',
-    component: '../layouts/index',
+    component: '../layouts/BaseLayout',
     routes: [
       {
         path: '/',
-        component: '../pages'
+        component: './index'
       }
     ]
+  },
+  {
+    component: './404',
   }
 ]

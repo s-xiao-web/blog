@@ -9,8 +9,8 @@ import ArticleItem from '@/pages/components/home/ArticleItem'
 export default function() {
   return (
     <div className={style.normal}>
-      <PageLoading />
-      {/* <BlogBanner />
+      {/* <PageLoading /> */}
+      <BlogBanner />
       <div className={style["content-wrapper"]}>
         <Row>
           <ArticleItem />
@@ -26,7 +26,7 @@ export default function() {
             hideOnSinglePage
           />
         </div>
-      </div> */}
+      </div>
     </div>
   );
 }
