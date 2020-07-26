@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { Table, Input, InputNumber, Popconfirm, Form } from 'antd';
-import NavForm from './component/NavForm';
-
+import { connect } from 'dva';
+import { Table, Popconfirm, Form, Card, Button } from 'antd';
+import AddNavDialog from './components/AddNavDialog'
+import EditableCell from './components/EditableCell'
 interface Item {
   key: string;
   name: string;
@@ -18,93 +19,16 @@ for (let i = 0; i < 4; i++) {
     address: `London Park no. ${i}`,
   });
 }
-interface EditableCellProps extends React.HTMLAttributes<HTMLElement> {
-  editing: boolean;
-  dataIndex: string;
-  title: any;
-  inputType: 'number' | 'text';
-  record: Item;
-  index: number;
-  children: React.ReactNode;
-}
 
-const EditableCell: React.FC<EditableCellProps> = ({
-  editing,
-  dataIndex,
-  title,
-  inputType,
-  record,
-  index,
-  children,
-  ...restProps
+const NavTable = ({
+  dispatch
 }) => {
-  const inputNode = inputType === 'number' ? <InputNumber /> : <Input />;
-
-  return (
-    <td {...restProps}>
-      {editing ? (
-        <Form.Item
-          name={dataIndex}
-          style={{ margin: 0 }}
-          rules={[
-            {
-              required: true,
-              message: `Please Input ${title}!`,
-            },
-          ]}
-        >
-          {inputNode}
-        </Form.Item>
-      ) : (
-        children
-      )}
-    </td>
-  );
-};
-
-const NavTable = () => {
   const [form] = Form.useForm();
-
   const [data, setData] = useState(originData);
   const [editingKey, setEditingKey] = useState('');
+  const [visible, setVisble] = useState(false);
 
   const isEditing = (record: Item) => record.key === editingKey;
-
-  const edit = (record: Item) => {
-    form.setFieldsValue({ name: '', age: '', address: '', ...record });
-    setEditingKey(record.key);
-  };
-
-  const cancel = () => {
-    setEditingKey('');
-  };
-
-  const save = async (key: React.Key) => {
-    try {
-      const row = (await form.validateFields()) as Item;
-      
-      const newData = [...data];
-      const index = newData.findIndex(item => key === item.key);
-      
-      console.log(index);
-
-      if (index > -1) {
-        const item = newData[index];
-        newData.splice(index, 1, {
-          ...item,
-          ...row,
-        });
-        setData(newData);
-        setEditingKey('');
-      } else {
-        newData.push(row);
-        setData(newData);
-        setEditingKey('');
-      }
-    } catch (errInfo) {
-      console.log('Validate Failed:', errInfo);
-    }
-  };
 
   const columns = [
     {
@@ -168,24 +92,74 @@ const NavTable = () => {
 
   return (
     <>
-      <NavForm></NavForm>
-      <Form form={form} component={false}>
-        <Table
-          components={{
-            body: {
-              cell: EditableCell,
-            },
-          }}
-          pagination={false}
-          bordered
-          dataSource={data}
-          columns={mergedColumns}
-          rowClassName="editable-row"
-        />
-      </Form>
+      <AddNavDialog visible={visible} onClose={handleDialigColse} onFinish={addMenuItem}/>
+      <Card title="Default size card" extra={<Button type="primary" onClick={() => setVisble(true)}>新增</Button>}>
+        <Form form={form} component={false}>
+          <Table
+            components={{
+              body: {
+                cell: EditableCell,
+              },
+            }}
+            pagination={false}
+            dataSource={data}
+            columns={mergedColumns}
+            rowClassName="editable-row"
+          />
+        </Form>
+      </Card>
     </>
   );
+
+  async function save(key: React.Key) {
+    try {
+      const row = (await form.validateFields()) as Item;
+      
+      const newData = [...data];
+      const index = newData.findIndex(item => key === item.key);
+      
+      console.log(index);
+
+      if (index > -1) {
+        const item = newData[index];
+        newData.splice(index, 1, {
+          ...item,
+          ...row,
+        });
+        setData(newData);
+        setEditingKey('');
+      } else {
+        newData.push(row);
+        setData(newData);
+        setEditingKey('');
+      }
+    } catch (errInfo) {
+      console.log('Validate Failed:', errInfo);
+    }
+  }
+
+  function edit(record: Item) {
+    form.setFieldsValue({ name: '', age: '', address: '', ...record });
+    setEditingKey(record.key);
+  };
+
+  function cancel() {
+    setEditingKey('');
+  };
+  function handleDialigColse() {
+    setVisble(false)
+  }
+
+  function addMenuItem(values) {
+    dispatch({
+      
+    })
+  }
 };
 
 
-export default NavTable
+export default connect((state) => {
+  return {
+    a:1
+  }
+})(NavTable)

@@ -17,8 +17,8 @@ const defaultMenus = [
     icon: 'setting',
     children: [
       {
-        path: '/welcome',
-        name: '导航菜单',
+        path: '/admin/setting/navigation',
+        name: '菜单添加',
       }
     ],
   },
@@ -33,11 +33,11 @@ const AdminLayout = props => {
 
   console.log(props);
 
-const loopMenuItem = (menus) => 
-  menus.map(({ icon, children, ...item }) => ({
-    ...item,
-    icon: icon && IconMap[icon],
-    children: children && loopMenuItem(children),
+  const loopMenuItem = (menus) => 
+    menus.map(({ icon, children, ...item }) => ({
+      ...item,
+      icon: icon && IconMap[icon],
+      children: children && loopMenuItem(children),
   }));
 
   const renderMenuHeader = (
@@ -53,14 +53,17 @@ const loopMenuItem = (menus) =>
         height: '100vh',
       }}
       location={{
-        pathname: '/welcome',
+        pathname: '/admin/setting/navigation',
       }}
       collapsedButtonRender={false}
       headerRender={false}
       menuDataRender={() => loopMenuItem(defaultMenus)}
       menuHeaderRender={() => renderMenuHeader}
     >
-      { props.children }
+      <PageContainer content="欢迎使用">
+        { props.children }
+      </PageContainer>
+      
     </ProLayout>
   )
 }
