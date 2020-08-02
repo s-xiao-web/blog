@@ -21,8 +21,9 @@ for (let i = 0; i < 4; i++) {
 }
 
 const NavTable = ({
-  dispatch
+  dispatch, menuList
 }) => {
+  console.log( 'menuList', menuList );
   const [form] = Form.useForm();
   const [data, setData] = useState(originData);
   const [editingKey, setEditingKey] = useState('');
@@ -152,14 +153,16 @@ const NavTable = ({
 
   function addMenuItem(values) {
     dispatch({
-      
+      type: 'admin-menu/addMenu',
+      payload: values
     })
   }
 };
 
 
 export default connect((state) => {
+  
   return {
-    a:1
+    menuList: state['admin-menu'].menu
   }
 })(NavTable)

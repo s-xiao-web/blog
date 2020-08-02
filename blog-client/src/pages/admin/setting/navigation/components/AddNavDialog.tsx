@@ -44,10 +44,6 @@ const AddNavDialog = ({
   function handleOk() {
     form.validateFields().then( values => {
       onFinish && onFinish(values);
-      onClose && onClose();
-      message.success('新增成功');
-    }).catch( errorInfo => {
-      message.error('喂喂喂！差点东西吧');
     })
   }
   
