@@ -19,9 +19,10 @@ export class CategoryController {
     return this.categoryService.getMenus();
   }
 
-  @Post('createMenu')
-  createMenu(@Body() createUserDto: CreateMenuDto ) {
-    return this.categoryService.createMenu(createUserDto);
+  @Post('addMenu')
+  addMenu(@Body() createUserDto: CreateMenuDto ) {
+    const result = this.categoryService.addMenu(createUserDto);
+    return result
   }
 
 }

@@ -16,7 +16,7 @@ export class CategoryService {
     private readonly sequelize: Sequelize,
   ) {}
 
-  async createMenu(CreatMenuDto: CreateMenuDto) {
+  async addMenu(CreatMenuDto: CreateMenuDto) {
     const menu = [
       {
         value: '编程',
@@ -40,7 +40,19 @@ export class CategoryService {
       },
     ]
     const { value, path } = CreatMenuDto;
-    return await this.categoryModel.bulkCreate(menu)
+    const menuList = await this.getMenus();
+
+    // if( menuList && menuList.length > 4 ) return {
+    //   code: 1,
+    //   data: 'helow'
+    // }
+    const res = this.categoryModel.build({...CreatMenuDto})
+    res.save()
+
+    // console.log(result);
+    // return result
+
+    // return await this.categoryModel.bulkCreate(menu)
     // const sql = `
     //   INSERT INTO category (value,path) VALUES ('${value}','${path}')
     // `
