@@ -21,7 +21,6 @@ const EditableCell: React.FC<EditableCellProps> = ({
   children,
   ...restProps
 }) => {
-  const inputNode = inputType === 'number' ? <InputNumber /> : <Input />;
 
   return (
     <td {...restProps}>
@@ -36,7 +35,7 @@ const EditableCell: React.FC<EditableCellProps> = ({
             },
           ]}
         >
-          {inputNode}
+          <Input />
         </Form.Item>
       ) : (
         children

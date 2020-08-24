@@ -1,52 +1,42 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { connect } from 'dva';
-import { Table, Popconfirm, Form, Card, Button } from 'antd';
+import { Table, Popconfirm, Form, Card, Button, message } from 'antd';
+import { get } from 'lodash';
+
 import AddNavDialog from './components/AddNavDialog'
 import EditableCell from './components/EditableCell'
-interface Item {
-  key: string;
-  name: string;
-  age: number;
-  address: string;
-}
 
-const originData: Item[] = [];
-for (let i = 0; i < 4; i++) {
-  originData.push({
-    key: i.toString(),
-    name: `Edrward ${i}`,
-    age: 32,
-    address: `London Park no. ${i}`,
-  });
+import { getMenuList, updateMenuList } from '@/api/category';
+
+interface Item {
+  id: string;
+  value: string;
+  path: string;
 }
 
 const NavTable = ({
   dispatch, menuList
 }) => {
-  console.log( 'menuList', menuList );
+
+  console.log('menuList', menuList);
+
   const [form] = Form.useForm();
-  const [data, setData] = useState(originData);
+  const [data, setData] = useState([]);
   const [editingKey, setEditingKey] = useState('');
   const [visible, setVisble] = useState(false);
 
-  const isEditing = (record: Item) => record.key === editingKey;
+  const isEditing = (record: Item) => record.id === editingKey;
 
   const columns = [
     {
-      title: 'name',
-      dataIndex: 'name',
+      title: 'value',
+      dataIndex: 'value',
       width: '25%',
       editable: true,
     },
     {
-      title: 'age',
-      dataIndex: 'age',
-      width: '15%',
-      editable: true,
-    },
-    {
-      title: 'address',
-      dataIndex: 'address',
+      title: 'path',
+      dataIndex: 'path',
       width: '40%',
       editable: true,
     },
@@ -56,33 +46,27 @@ const NavTable = ({
       render: (_: any, record: Item) => {
         const editable = isEditing(record);
         return editable ? (
-          <span>
-            <a href="javascript:;" onClick={() => save(record.key)} style={{ marginRight: 8 }}>
-              Save
-            </a>
-            <Popconfirm title="Sure to cancel?" onConfirm={cancel}>
-              <a>Cancel</a>
-            </Popconfirm>
-          </span>
+          <div>
+            <Button type="link" onClick={() => save(record.id)} style={{ marginRight: 8 }}>保存</Button>
+            <Popconfirm title="Sure to cancel?" onConfirm={cancel}><a>取消</a></Popconfirm>
+          </div>
         ) : (
-          <a disabled={editingKey !== ''} onClick={() => edit(record)}>
-            Edit
-          </a>
+          <>
+            <Button type="link" disabled={editingKey !== ''} onClick={() => edit(record)}>编辑</Button>
+            <Popconfirm title="Sure to cancel?" onConfirm={() => deleteMenu(record.id)}><a>删除</a></Popconfirm>
+          </>
         );
       },
     },
   ];
 
   const mergedColumns = columns.map(col => {
-    if (!col.editable) {
-      return col;
-    }
+    if (!col.editable) return col;
     return {
       ...col,
       onCell: (record: Item) => {
         return ({
           record,
-          inputType: col.dataIndex === 'age' ? 'number' : 'text',
           dataIndex: col.dataIndex,
           title: col.title,
           editing: isEditing(record),
@@ -90,6 +74,10 @@ const NavTable = ({
       },
     };
   });
+
+  useEffect(() => {
+    dispatch({ type: 'adminMenu/getMenu' });
+  }, [dispatch])
 
   return (
     <>
@@ -102,8 +90,9 @@ const NavTable = ({
                 cell: EditableCell,
               },
             }}
+            rowKey="path"
             pagination={false}
-            dataSource={data}
+            dataSource={menuList}
             columns={mergedColumns}
             rowClassName="editable-row"
           />
@@ -112,23 +101,27 @@ const NavTable = ({
     </>
   );
 
-  async function save(key: React.Key) {
+  async function save(id: React.Key) {
     try {
       const row = (await form.validateFields()) as Item;
-      
       const newData = [...data];
-      const index = newData.findIndex(item => key === item.key);
-      
-      console.log(index);
-
+      const index = newData.findIndex(item => id === item.id);
+   
       if (index > -1) {
         const item = newData[index];
-        newData.splice(index, 1, {
-          ...item,
-          ...row,
-        });
-        setData(newData);
-        setEditingKey('');
+        dispatch({
+          type: 'adminMenu/updateMenu',
+          payload: { id, ...row },
+          callback() {
+            message.success('success');
+            newData.splice(index, 1, {
+              ...item,
+              ...row,
+            });
+            setData(newData);
+            setEditingKey('');
+          }
+        })
       } else {
         newData.push(row);
         setData(newData);
@@ -139,30 +132,37 @@ const NavTable = ({
     }
   }
 
+  function deleteMenu(id: React.key) {
+    dispatch({
+      type: 'adminMenu/deleteMenu',
+      payload: { id },
+      callback() {message.success('success')}
+    })
+  }
+
   function edit(record: Item) {
-    form.setFieldsValue({ name: '', age: '', address: '', ...record });
-    setEditingKey(record.key);
+    form.setFieldsValue({ ...record });
+    setEditingKey(record.id);
   };
 
   function cancel() {
     setEditingKey('');
   };
+
   function handleDialigColse() {
     setVisble(false)
-  }
+  };
 
   function addMenuItem(values) {
     dispatch({
-      type: 'admin-menu/addMenu',
-      payload: values
+      type: 'adminMenu/addMenu',
+      payload: values,
+      callback() {handleDialigColse()}
     })
   }
 };
 
 
-export default connect((state) => {
-  
-  return {
-    menuList: state['admin-menu'].menu
-  }
-})(NavTable)
+export default connect( ({ adminMenu })  => ({
+  menuList: get( adminMenu, 'menu', [] )
+}))(NavTable)

@@ -9,6 +9,10 @@ interface Test {
   path: string;
 }
 
+interface Id {
+  id: number
+}
+
 @Controller('category')
 export class CategoryController {
 
@@ -25,4 +29,13 @@ export class CategoryController {
     return result
   }
 
+  @Post('updateMenu')
+  updateMenu(@Body() createUserDto: CreateMenuDto ) {
+    return this.categoryService.updateMenu(createUserDto);
+  }
+
+  @Post('deleteMenu')
+  deleteMenu(@Body() { id }: Id) {
+    return this.categoryService.deleteMenu(id);
+  }
 }

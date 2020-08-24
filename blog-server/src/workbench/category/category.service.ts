@@ -76,6 +76,17 @@ export class CategoryService {
       logging: true
     })
   }
+
+  async updateMenu(CreatMenuDto: CreateMenuDto) {
+    const { id, ...arg } = CreatMenuDto;
+    const [ menuId ] = await this.categoryModel.update(arg, { where: { id } });
+    return menuId ? 'success' : {code: 1, data: 'throw error', message: 'error'};
+  }
+
+  async deleteMenu(id) {
+    const [ menuId ] = await this.categoryModel.destroy({ where: { id } });
+    return menuId ? 'success' : {code: 1, data: 'throw error', message: 'error'};
+  }
 }
 
 
