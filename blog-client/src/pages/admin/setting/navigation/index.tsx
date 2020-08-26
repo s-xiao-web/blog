@@ -77,7 +77,9 @@ const NavTable = ({
   return (
     <>
       <AddNavDialog visible={visible} onClose={handleDialigColse} onFinish={addMenuItem}/>
-      <Card title="Default size card" extra={<Button type="primary" onClick={() => setVisble(true)}>新增</Button>}>
+      <Card title="Menu_List" 
+        extra={<Button type="primary" onClick={() => setVisble(true)}>新增</Button>}
+      >
         <Form form={form} component={false}>
           <Table
             components={{

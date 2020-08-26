@@ -12,15 +12,26 @@ const IconMap = {
 
 const defaultMenus = [
   {
-    path: '/',
+    path: '/admin',
     name: '基本设置',
     icon: 'setting',
     children: [
       {
-        path: '/admin/setting/navigation',
-        name: '菜单添加',
-      }
+        path: '/setting/navigation',
+        name: '菜单配置',
+      },
     ],
+  },
+  {
+    path: '/',
+    name: '运营管理',
+    icon: 'setting',
+    children: [
+      {
+        path: '/admin/operate/article',
+        name: '文章管理'
+      }
+    ]
   },
   {
     path: '/demo',
@@ -30,8 +41,6 @@ const defaultMenus = [
 ];
 
 const AdminLayout = props => {
-
-  console.log(props);
 
   const loopMenuItem = (menus) => 
     menus.map(({ icon, children, ...item }) => ({

@@ -1,18 +1,18 @@
 export const routes =  [
   {
-    name: '欢迎',
+    name: 'admin',
     path: '/admin',
     component: '../layouts/AdminLayout',
     routes: [
       {
-        name: '编辑文章',
-        path: '/admin',
-        component: './editor'
-      },
-      {
-        name: '心态菜单',
+        name: '菜单配置',
         path: '/admin/setting/navigation',
         component: './admin/setting/navigation'
+      },
+      {
+        name: '文章列表',
+        path: '/admin/operate/article',
+        component: './admin/operate/article'
       }
     ]
   },
