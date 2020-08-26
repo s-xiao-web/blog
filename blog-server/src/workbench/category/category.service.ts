@@ -84,8 +84,8 @@ export class CategoryService {
   }
 
   async deleteMenu(id) {
-    const [ menuId ] = await this.categoryModel.destroy({ where: { id } });
-    return menuId ? 'success' : {code: 1, data: 'throw error', message: 'error'};
+    const result = await this.categoryModel.destroy({ where: { id } });
+    return result ? 'success' : {code: 1, data: 'throw error', message: 'error'};
   }
 }
 

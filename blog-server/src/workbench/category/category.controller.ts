@@ -36,6 +36,7 @@ export class CategoryController {
 
   @Post('deleteMenu')
   deleteMenu(@Body() { id }: Id) {
+    console.log('需要删除的id', id);
     return this.categoryService.deleteMenu(id);
   }
 }

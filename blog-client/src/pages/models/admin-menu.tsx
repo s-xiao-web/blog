@@ -4,7 +4,7 @@ import base from '@/models/base';
 
 import { addMenuList, getMenuList, updateMenuList, deleteMenuList } from '@/api/category';
 
-export default  {
+export default extend(base, {
 
   namespace: 'adminMenu',
 
@@ -12,18 +12,14 @@ export default  {
     menu: []
   },
 
-  reducers: {
-    save(state, { payload }) {
-      console.log('上面的方法', payload);
-    }
-  },
+  reducers: {},
 
   effects: {
 
     *getMenu(_, {call, put}) {
       const result = yield call(getMenuList);
-      const menu = get(result, 'result.data', []);
-      put({type: 'save', payload: {menu}})
+      const menu = get(result, 'data', []);
+      yield put({type: 'save', payload: { menu }});
     },
 
     *addMenu({ payload, callback }, {call, put}) {
@@ -32,14 +28,20 @@ export default  {
       callback(result);
     },
 
-    *updateMenu({ payload, callback }, { call }) {
+    *updateMenu({ payload, callback }, { call, put }) {
       const result = yield call(updateMenuList, payload);
+      yield put({ type: 'getMenu' });
       callback( result );
     },
 
-    *deleteMenu({ payload, callback }, { call }) {
+    *deleteMenu({ payload, callback }, { call, put }) {
       const result = yield call(deleteMenuList, payload);
+      yield put({ type: 'getMenu' });
       callback( result )
+    },
+
+    *localUpdateMenu({ payload }, { put }) {
+
     }
   }
-}
+})

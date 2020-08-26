@@ -17,6 +17,7 @@ const AddNavDialog = ({
       visible={visible}
       onOk={handleOk}
       onCancel={onClose}
+      destroyOnClose={true}
     >
       <Form
         form={form}

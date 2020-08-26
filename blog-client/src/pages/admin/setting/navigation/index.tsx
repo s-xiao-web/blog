@@ -6,8 +6,6 @@ import { get } from 'lodash';
 import AddNavDialog from './components/AddNavDialog'
 import EditableCell from './components/EditableCell'
 
-import { getMenuList, updateMenuList } from '@/api/category';
-
 interface Item {
   id: string;
   value: string;
@@ -17,11 +15,8 @@ interface Item {
 const NavTable = ({
   dispatch, menuList
 }) => {
-
-  console.log('menuList', menuList);
-
   const [form] = Form.useForm();
-  const [data, setData] = useState([]);
+  const [data, setData] = useState(menuList);
   const [editingKey, setEditingKey] = useState('');
   const [visible, setVisble] = useState(false);
 
@@ -106,27 +101,19 @@ const NavTable = ({
       const row = (await form.validateFields()) as Item;
       const newData = [...data];
       const index = newData.findIndex(item => id === item.id);
-   
-      if (index > -1) {
-        const item = newData[index];
-        dispatch({
-          type: 'adminMenu/updateMenu',
-          payload: { id, ...row },
-          callback() {
-            message.success('success');
-            newData.splice(index, 1, {
-              ...item,
-              ...row,
-            });
-            setData(newData);
-            setEditingKey('');
-          }
-        })
-      } else {
-        newData.push(row);
-        setData(newData);
-        setEditingKey('');
-      }
+      const item = newData[index];
+      dispatch({
+        type: 'adminMenu/updateMenu',
+        payload: { id, ...row },
+        callback() {
+          message.success('success');
+          newData.splice(index, 1, {
+            ...item,
+            ...row,
+          });
+          setEditingKey('');
+        }
+      })
     } catch (errInfo) {
       console.log('Validate Failed:', errInfo);
     }
