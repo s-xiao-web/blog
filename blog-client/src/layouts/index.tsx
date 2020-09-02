@@ -7,9 +7,9 @@ import AdminLayout from './AdminLayout';
 
 const SecurityLayout = props => {
 
-  const { location } = props;
+  const { location:{ pathname } } = props;
 
-  return location.pathname === '/admin' ? 
+  return pathname && pathname.includes('/admin') ? 
     (<AdminLayout>{ props.children }</AdminLayout>)
     :
     (<BaseLayout {...props}>{ props.children }</BaseLayout>)

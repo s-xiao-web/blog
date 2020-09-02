@@ -5,7 +5,7 @@ import { routes } from './routes';
 const config: IConfig =  {
   treeShaking: true,
 
-  routes,
+  // routes,
 
   plugins: [
     // ref: https://umijs.org/plugin/umi-plugin-react.html

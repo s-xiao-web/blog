@@ -4,6 +4,7 @@ import {
   Model, 
   PrimaryKey, 
   AutoIncrement,
+  DataType,
 } from 'sequelize-typescript';
 
 @Table
@@ -17,15 +18,25 @@ export class Article extends Model<Article> {
   @Column
   title: string
 
-  @Column
+  @Column(DataType.TEXT)
   comment: string
   
   @Column
+  describe: string
+
+  @Column
+  cover: string
+
+  @Column
   user_id: number
 
-  @Column
+  @Column({
+    defaultValue: 0
+  })
   label_id: number
 
-  @Column
+  @Column({
+    defaultValue: 0
+  })
   like_id: number
 }
