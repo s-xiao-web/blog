@@ -89,7 +89,6 @@ const OperateList = props => {
         <EditorArticle
           initFormData={initFormData}
           onFinish={onFinish}
-          onFinishFailed={onFinishFailed}
         ></EditorArticle>
       </Modal>
     </>
@@ -116,10 +115,6 @@ const OperateList = props => {
         changeModalState();
       }
     })
-  }
-
-  function onFinishFailed() {
-
   }
 
   // 弹窗的显示

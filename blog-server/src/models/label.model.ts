@@ -17,4 +17,10 @@ export class Label extends Model<Label> {
   @Column
   content: string
 
+  @Column({
+    defaultValue: 0
+  })
+  articles: number
+
+  
 }

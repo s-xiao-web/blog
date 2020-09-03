@@ -9,6 +9,8 @@ import { UserModule } from './workbench/user/user.module';
 import { ArticleModule } from './workbench/article/article.module';
 import { BaseModule } from './workbench/base/base.module';
 import { AuthModule } from './workbench/auth/auth.module';
+import { UploadModule } from './workbench/upload/upload.module';
+import { LabelModule } from './workbench/label/label.module'
 
 import { UserController } from './workbench/user/user.controller'
 
@@ -35,6 +37,8 @@ import { UserController } from './workbench/user/user.controller'
     ArticleModule,
     BaseModule,
     AuthModule,
+    UploadModule,
+    LabelModule
   ],
   controllers: [AppController, UserController],
   providers: [AppService],

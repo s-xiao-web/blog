@@ -1,21 +1,23 @@
 import React, { useState, useEffect  } from 'react';
-import { get } from 'lodash';
-import { Form, Input, Select, Upload } from 'antd';
-import { LoadingOutlined, PlusOutlined } from '@ant-design/icons';
-
 import ImgCrop  from 'antd-img-crop'
-
+import { Form, Input, Select, Upload, Modal } from 'antd';
+import { LoadingOutlined, PlusOutlined } from '@ant-design/icons';
 import EditorForm from './components';
-
-
+import EditorTxt from './components/ArticleText'
 
 import style from './index.less';
 
-import EditorTxt from './components/ArticleText'
-
 const { ArticleButton } = EditorForm;
-
 const { Option } = Select;
+
+function getBase64(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = error => reject(error);
+  });
+}
 
 const EditorContent = ({
   initFormData,
@@ -24,12 +26,13 @@ const EditorContent = ({
 }) => {
   const children = [];
   const layout = { labelCol: { span: 3 } };
-
-  const [ form ] = Form.useForm();
-
-  const loading = false
-  const [imageUrl, setImageUrl] = useState('')
-  
+  const [form] = Form.useForm();
+  const [imageUrl, setImageUrl] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [fileList, setFileList] = useState([]);
+  const [previewVisible, setPreviewVisible] = useState(false);
+  const [previewTitle, setPreviewTitle] = useState('');
+  const [previewImage, setPreviewImage] = useState('');
 
   const uploadButton = (
     <div>
@@ -43,7 +46,6 @@ const EditorContent = ({
   }
 
   useEffect(() => {
-    console.log('这里执行了', initFormData);
     form.setFieldsValue({...initFormData})
   }, [form, initFormData])
 
@@ -90,26 +92,19 @@ const EditorContent = ({
 
         <Form.Item
           label="文章封面"
-          // name="cover"
-          rules={[{ required: true, message: 'Please input your cover!' }]}
           >
           <ImgCrop>
             <Upload
               name="cover"
               listType="picture-card"
               className="avatar-uploader"
-              showUploadList={false}
-              action="http://localhost:3030/api/article/uploadImg"
-              // beforeUpload={beforeUpload}
+              action="http://localhost:3030/api/upload/image"
+              fileList={fileList}
+              beforeUpload={beforeUpload}
               onPreview={onPreview}
               onChange={handleChange}
             >
-              {
-                imageUrl ?
-                (<img src={imageUrl} alt="avatar" style={{ width: '100%' }} />)
-                :
-                (uploadButton)
-              }
+              {fileList.length >= 1 ? null : uploadButton}
             </Upload>
           </ImgCrop>
         </Form.Item>
@@ -125,13 +120,27 @@ const EditorContent = ({
         <ArticleButton>sublimt</ArticleButton>
 
       </Form>
-      
+
+      <Modal
+        visible={previewVisible}
+        title={previewTitle}
+        footer={null}
+        onCancel={handleCancel}
+      >
+        <img alt="example" style={{ width: '100%' }} src={previewImage} />
+      </Modal>
     </div>
   )
       
   function onSubmit(data) {
+    console.log(data);
+    return
     const { comment } = data;
-    const formData = Object.assign(data, {comment: comment? comment.toHTML() : comment });
+    const formData = Object.assign(
+      data,
+      {comment: comment? comment.toHTML() : comment },
+      {cover: imageUrl}
+    );
     onFinish(formData);
   }
 
@@ -140,35 +149,48 @@ const EditorContent = ({
   }
 
   function beforeUpload(file, fileList) {
-    console.log('file', file);
-    console.log('fileList', fileList);
-    var windowURL = window.URL || window.webkitURL;
-    const dataURL = windowURL.createObjectURL(file);
+    const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
+    if (!isJpgOrPng) {
+      message.error('You can only upload JPG/PNG file!');
+    }
+    const isLt2M = file.size / 1024 / 1024 < 2;
 
-    setImageUrl(dataURL)
-    return false
+    if (!isLt2M) {
+      message.error('Image must smaller than 2MB!');
+    }
+    return isJpgOrPng && isLt2M;
   }
-
-  
 
   async function onPreview(file) {
-    let src = file.url;
-    if (!src) {
-      src = await new Promise(resolve => {
-        const reader = new FileReader();
-        reader.readAsDataURL(file.originFileObj);
-        reader.onload = () => resolve(reader.result);
-      });
+    if (!file.url && !file.preview) {
+      file.preview = await getBase64(file.originFileObj);
     }
-    const image = new Image();
-    image.src = src;
-    const imgWindow = window.open(src);
-    imgWindow.document.write(image.outerHTML);
+    setPreviewImage(file.url || file.preview);
+    setPreviewVisible(true);
+    setPreviewTitle(file.name || file.url.substring(file.url.lastIndexOf('/') + 1));
   }
 
-  function handleChange(value) {
-    console.log(`selected ${value}`);
+  function handleChange({ file, fileList }) {
+    switch(file.status) {
+      case 'done':
+        setImageUrl( file.response.data.path );
+        setLoading( false );
+        break;
+      case 'removed':
+        setImageUrl('');
+        setLoading(false);
+        break;
+      case 'uploading':
+        setLoading(true);
+        break;
+      default :
+        setLoading(false);
+    }
+    setFileList( fileList );
   }
-  
+
+  function handleCancel() {
+    setPreviewVisible(false);
+  }
 }
 export default EditorContent;
