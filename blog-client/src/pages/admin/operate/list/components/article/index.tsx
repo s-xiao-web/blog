@@ -2,6 +2,7 @@ import React, { useState, useEffect  } from 'react';
 import ImgCrop  from 'antd-img-crop'
 import { Form, Input, Select, Upload, Modal } from 'antd';
 import { LoadingOutlined, PlusOutlined } from '@ant-design/icons';
+
 import EditorForm from './components';
 import EditorTxt from './components/ArticleText'
 
@@ -23,8 +24,9 @@ const EditorContent = ({
   initFormData,
   onFinish,
   onFinishFailed,
+  labelData,
 }) => {
-  const children = [];
+
   const layout = { labelCol: { span: 3 } };
   const [form] = Form.useForm();
   const [imageUrl, setImageUrl] = useState('');
@@ -40,10 +42,6 @@ const EditorContent = ({
       <div style={{ marginTop: 8 }}>Upload</div>
     </div>
   );
-
-  for (let i = 10; i < 36; i++) {
-    children.push(<Option key={i.toString(36) + i} value={i.toString(36) + i}>{i.toString(36) + i}</Option>);
-  }
 
   useEffect(() => {
     form.setFieldsValue({...initFormData})
@@ -78,7 +76,10 @@ const EditorContent = ({
             style={{ width: '100%' }}
             placeholder="Please select"
           >
-            {children}
+            {
+              labelData.map((item, index) => (
+                <Option key={item.id} value={item.id + ''}>{item.content}</Option>) )
+            }
           </Select>
         </Form.Item>
         
@@ -133,8 +134,6 @@ const EditorContent = ({
   )
       
   function onSubmit(data) {
-    console.log(data);
-    return
     const { comment } = data;
     const formData = Object.assign(
       data,

@@ -4,9 +4,18 @@ import {
   Model, 
   PrimaryKey, 
   AutoIncrement,
+  ForeignKey,
+  Scopes,
+  BelongsTo,
+  BelongsToMany
 } from 'sequelize-typescript';
 
-@Table
+import { Article } from './article.model';
+
+
+@Table({
+  // tableName: ''
+})
 export class Label extends Model<Label> {
 
   @PrimaryKey
@@ -21,6 +30,5 @@ export class Label extends Model<Label> {
     defaultValue: 0
   })
   articles: number
-
   
 }

@@ -18,11 +18,7 @@ export class ArticleController {
   @Post('uploadImg')
   @UseInterceptors(FileInterceptor('cover'))
   UploadedFile(@UploadedFile() file, @Body() body) {
-  
-    console.log('上传的文件', file);
-
     return '请求成功了'
-    
   }
 
   @Post('addArticle')

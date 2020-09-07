@@ -3,6 +3,8 @@ import { connect } from 'dva';
 import { get } from 'lodash';
 import { Table, Space, Button, Popconfirm, Card, Modal  } from 'antd';
 
+import { getLabel } from '@/api/label'
+
 import EditorArticle from './components/article';
 
 const style = { top: 0 };
@@ -13,7 +15,8 @@ const OperateList = props => {
   const [data, setData] = useState([]);
   const [visible, setVisible] = useState(true);
   const [initFormData, setInitFormData] = useState({title: '1', label: [], comment: '3'})
-
+  const [labelData, setLabelData] = useState([]);
+  
   const columns = [
     {
       title: '标题',
@@ -89,6 +92,7 @@ const OperateList = props => {
         <EditorArticle
           initFormData={initFormData}
           onFinish={onFinish}
+          labelData={labelData}
         ></EditorArticle>
       </Modal>
     </>
@@ -128,6 +132,9 @@ const OperateList = props => {
       payload: {},
       callBack: res => setData(res.data || [])
     })
+
+    getLabel().then(res => setLabelData(get(res, 'data', [])));
+
   }
 
 }
